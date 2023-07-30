@@ -14,11 +14,14 @@ You run the command bir:
  * All files in this directory are inspected, new files are added to the database, deleted files are removed from the database.
  * If the file last modification date in database and on the disk is the same, but the content checksum is different, then a bit rot is detected.
 
+This program cannot restore files with bitrot.
+ * You have to backup up your files (do snapshots).
+
 ## How to setup your environment on Linux
 
 Example:
 
-    alias bir='java -jar /rv/data/desktop/code/code.nanoboot.org/nanoboot/bit-inspector/target/bir-inspector-0.0.0-SNAPSHOT-jar-with-dependencies.jar'
+    alias bir='java -jar /rv/data/desktop/code/code.nanoboot.org/nanoboot/bit-inspector/target/bit-inspector-0.0.0-SNAPSHOT-jar-with-dependencies.jar'
 
 ## Usage
 
