@@ -361,7 +361,7 @@ public class CheckCommand implements Command {
             if (processedCount % 100 == 0) {
                 double progress = ((double) processedCount) / countOfFilesToCalculateHashSum * 100;
                 LOG.info("Update - Progress: " + processedCount + "/" + countOfFilesToCalculateHashSum + " " + String.format("%,.2f", progress) + "%");
-                LOG.info("Remains: " + Duration.of(rtc.remainingSecondsUntilEnd(), TimeUnit.SECOND).toString());
+                LOG.info("Remains: " + Duration.of(rtc.remainingSecondsUntilEnd(), TimeUnit.SECOND).toHumanString());
             }
             File file = new File("./" + absolutePathOfFileInDb);
 
