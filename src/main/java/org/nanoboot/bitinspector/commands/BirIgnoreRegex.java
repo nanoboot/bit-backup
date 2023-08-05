@@ -27,30 +27,41 @@ import org.nanoboot.bitinspector.core.Utils;
 
 /**
  *
- * @author robertvokac
+ * @author <a href="mailto:robertvokac@nanoboot.org">Robert Vokac</a>
  */
 public class BirIgnoreRegex implements Predicate<String> {
-
+    
     private final List<String> patterns = new ArrayList<>();
-
+    
     public BirIgnoreRegex(File birIgnoreFile) {
+        
+        patterns.add(convertUnixRegexToJavaRegex("*.birreport.csv"));
+        addBirIgnoreFile(birIgnoreFile);
+        
+    }
+
+    public final void addBirIgnoreFile(File birIgnoreFile) {
+        addBirIgnoreFile(birIgnoreFile, null);
+    }
+    public final void addBirIgnoreFile(File birIgnoreFile, File workingDir) {
         String[] lines = birIgnoreFile.exists() ? Utils.readTextFromFile(birIgnoreFile).split("\\R") : new String[]{};
-        if (lines.length == 0) {
-            //nothing to do
-            return;
-        }
+        String addPrefix = workingDir == null ? "" : birIgnoreFile.getParentFile().getAbsolutePath().replace(workingDir.getAbsolutePath() + "/", "");
+            
         for (String l : lines) {
             if (l.isBlank() || l.trim().startsWith("#")) {
                 //nothing to do
                 continue;
             }
-            patterns.add(convertUnixRegexToJavaRegex(l));
+            if(addPrefix == null) {
+                patterns.add(convertUnixRegexToJavaRegex(l));
+            } else {
+                patterns.add(convertUnixRegexToJavaRegex(addPrefix + l));
+                patterns.forEach(e->System.out.println("$$$" + e));
+            }
+            
         }
-        patterns.add(convertUnixRegexToJavaRegex("*.birreport.csv"));
-        
-
     }
-
+    
     @Override
     public boolean test(String text) {
         if (patterns.isEmpty()) {
@@ -63,7 +74,7 @@ public class BirIgnoreRegex implements Predicate<String> {
             if (b) {
                 ignore = true;
             } else {
-
+                
             }
         }
 //        if (ignore) {
@@ -73,7 +84,7 @@ public class BirIgnoreRegex implements Predicate<String> {
 //        }
         return ignore;
     }
-
+    
     public static String convertUnixRegexToJavaRegex(String wildcard) {
         StringBuffer s = new StringBuffer(wildcard.length());
         s.append('^');
@@ -109,5 +120,5 @@ public class BirIgnoreRegex implements Predicate<String> {
         s.append('$');
         return (s.toString());
     }
-
+    
 }

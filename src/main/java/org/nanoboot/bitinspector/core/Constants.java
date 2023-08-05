@@ -23,7 +23,7 @@ import java.text.SimpleDateFormat;
 
 /**
  *
- * @author pc00289
+* @author <a href="mailto:robertvokac@nanoboot.org">Robert Vokac</a>
  */
 public class Constants {
     

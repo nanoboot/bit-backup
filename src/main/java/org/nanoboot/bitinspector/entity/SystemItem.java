@@ -25,7 +25,7 @@ import lombok.Setter;
 
 /**
  *
- * @author robertvokac
+* @author <a href="mailto:robertvokac@nanoboot.org">Robert Vokac</a>
  */
 @Getter
 @Setter

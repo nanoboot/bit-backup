@@ -31,9 +31,15 @@ import org.nanoboot.bitinspector.persistence.api.FileRepository;
 
 /**
  *
- * @author robertvokac
+ * @author <a href="mailto:robertvokac@nanoboot.org">Robert Vokac</a>
  */
 public class FileRepositoryImplSqlite implements FileRepository {
+
+    private SqliteConnectionFactory sqliteConnectionFactory;
+
+    public FileRepositoryImplSqlite(SqliteConnectionFactory sqliteConnectionFactory) {
+        this.sqliteConnectionFactory = sqliteConnectionFactory;
+    }
 
     @Override
     public void create(List<FsFile> files) {
@@ -69,13 +75,15 @@ public class FileRepositoryImplSqlite implements FileRepository {
                 .append(FileTable.LAST_CHECK_DATE).append(",")
                 //
                 .append(FileTable.HASH_SUM_VALUE).append(",")
-                .append(FileTable.HASH_SUM_ALGORITHM);
+                .append(FileTable.HASH_SUM_ALGORITHM).append(",")
+                .append(FileTable.SIZE).append(",")
+                .append(FileTable.LAST_CHECK_RESULT).append("");
 
         sb.append(") VALUES ");
 
         int index = 0;
         for (FsFile f : files) {
-            sb.append(" (?,?,?,?,?, ?,?)");
+            sb.append(" (?,?,?,?,?, ?,?,?,?)");
             boolean lastFile = index == (files.size() - 1);
             if (!lastFile) {
                 sb.append(",");
@@ -84,7 +92,7 @@ public class FileRepositoryImplSqlite implements FileRepository {
         }
 
         String sql = sb.toString();
-        System.err.println(sql);
+        //System.err.println(sql);
         try (
                 Connection connection = createConnection(); PreparedStatement stmt = connection.prepareStatement(sql);) {
             int i = 0;
@@ -99,11 +107,13 @@ public class FileRepositoryImplSqlite implements FileRepository {
                 //
                 stmt.setString(++i, f.getHashSumValue());
                 stmt.setString(++i, f.getHashSumAlgorithm());
+                stmt.setLong(++i, f.getSize());
+                stmt.setString(++i, f.getLastCheckResult());
 
             }
             //
             stmt.execute();
-            System.out.println(stmt.toString());
+            //System.out.println(stmt.toString());
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -124,7 +134,7 @@ public class FileRepositoryImplSqlite implements FileRepository {
                 .append(FileTable.TABLE_NAME);
 
         String sql = sb.toString();
-        System.err.println(sql);
+//        System.err.println(sql);
         int i = 0;
         ResultSet rs = null;
         try (
@@ -165,7 +175,7 @@ public class FileRepositoryImplSqlite implements FileRepository {
         sb.append(FileTable.ID);
         sb.append("=?");
         String sql = sb.toString();
-        System.err.println("SQL::" + sql);
+        //System.err.println("SQL::" + sql);
         int i = 0;
 
         try (
@@ -173,7 +183,7 @@ public class FileRepositoryImplSqlite implements FileRepository {
 
             stmt.setString(++i, file.getId());
 
-            System.err.println(stmt.toString());
+            //System.err.println(stmt.toString());
             stmt.execute();
 
         } catch (SQLException e) {
@@ -185,7 +195,7 @@ public class FileRepositoryImplSqlite implements FileRepository {
     }
 
     private Connection createConnection() throws ClassNotFoundException {
-        return new SqliteConnectionFactory().createConnection();
+        return sqliteConnectionFactory.createConnection();
     }
 
     @Override
@@ -199,7 +209,9 @@ public class FileRepositoryImplSqlite implements FileRepository {
                 .append(FileTable.LAST_MODIFICATION_DATE).append("=?, ")
                 .append(FileTable.LAST_CHECK_DATE).append("=?, ")
                 .append(FileTable.HASH_SUM_VALUE).append("=?, ")
-                .append(FileTable.HASH_SUM_ALGORITHM).append("=? ")
+                .append(FileTable.HASH_SUM_ALGORITHM).append("=?, ")
+                .append(FileTable.SIZE).append("=?, ")
+                .append(FileTable.LAST_CHECK_RESULT).append("=? ")
                 .append(" WHERE ").append(FileTable.ID).append("=?");
 
         String sql = sb.toString();
@@ -211,6 +223,8 @@ public class FileRepositoryImplSqlite implements FileRepository {
             stmt.setString(++i, file.getLastCheckDate());
             stmt.setString(++i, file.getHashSumValue());
             stmt.setString(++i, file.getHashSumAlgorithm());
+            stmt.setLong(++i, file.getSize());
+            stmt.setString(++i, file.getLastCheckResult());
 
             stmt.setString(++i, file.getId());
 
@@ -232,14 +246,16 @@ public class FileRepositoryImplSqlite implements FileRepository {
                 rs.getString(FileTable.LAST_MODIFICATION_DATE),
                 rs.getString(FileTable.LAST_CHECK_DATE),
                 rs.getString(FileTable.HASH_SUM_VALUE),
-                rs.getString(FileTable.HASH_SUM_ALGORITHM)
+                rs.getString(FileTable.HASH_SUM_ALGORITHM),
+                rs.getLong(FileTable.SIZE),
+                rs.getString(FileTable.LAST_CHECK_RESULT)
         );
     }
 
     @Override
     public void updateLastCheckDate(String lastCheckDate, List<FsFile> files) {
 
-                if (files.isEmpty()) {
+        if (files.isEmpty()) {
             return;
         }
         if (files.size() > 100) {
@@ -258,13 +274,14 @@ public class FileRepositoryImplSqlite implements FileRepository {
             }
             return;
         }
-        
+
         StringBuilder sb = new StringBuilder();
         sb
                 .append("UPDATE ")
                 .append(FileTable.TABLE_NAME)
                 .append(" SET ")
-                .append(FileTable.LAST_CHECK_DATE).append("=? ")
+                .append(FileTable.LAST_CHECK_DATE).append("=?, ")
+                .append(FileTable.LAST_CHECK_RESULT).append("='OK' ")
                 .append(" WHERE ").append(FileTable.ID).append(" IN (");
         int index = 0;
         for (FsFile f : files) {

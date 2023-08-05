@@ -21,11 +21,11 @@ package org.nanoboot.bitinspector.core;
 
 /**
  *
- * @author pc00289
+* @author <a href="mailto:robertvokac@nanoboot.org">Robert Vokac</a>
  */
 public interface Command {
     public String getName();
-    default void run(BitInspectorArgs bitInspectorArgs) {
+    default String run(BirArgs bitInspectorArgs) {
         throw new BitInspectorException("Not yet implemented.");
     }
     

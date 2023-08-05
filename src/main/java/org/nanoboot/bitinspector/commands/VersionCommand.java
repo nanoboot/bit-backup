@@ -19,26 +19,32 @@
 
 package org.nanoboot.bitinspector.commands;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.nanoboot.bitinspector.core.Command;
-import org.nanoboot.bitinspector.core.BitInspectorArgs;
+import org.nanoboot.bitinspector.core.BirArgs;
 
 /**
  *
- * @author pc00289
+* @author <a href="mailto:robertvokac@nanoboot.org">Robert Vokac</a>
  */
 public class VersionCommand implements Command {
-
+    
+public static final String NAME = "version";
+private static final Logger LOG = LogManager.getLogger(VersionCommand.class);
     public VersionCommand() {
     }
 
     @Override
     public String getName() {
-        return "version";
+        return NAME;
     }
 
     @Override
-    public void run(BitInspectorArgs bitInspectorArgs) {
-        System.out.println("Bit Inspector 0.0.0-SNAPSHOT");
+    public String run(BirArgs bitInspectorArgs) {
+        String result = "Bit Inspector 0.0.0-SNAPSHOT";
+        LOG.info(result);
+        return result;
     }
     
 }

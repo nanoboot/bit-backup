@@ -16,7 +16,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
-
 package org.nanoboot.bitinspector.core;
 
 import java.util.HashMap;
@@ -25,15 +24,33 @@ import lombok.Getter;
 
 /**
  *
- * @author pc00289
+ * @author <a href="mailto:robertvokac@nanoboot.org">Robert Vokac</a>
  */
-public class BitInspectorArgs {
+public class BirArgs {
 
     @Getter
     private final String command;
     private final Map<String, String> internalMap = new HashMap<>();
 
-    public BitInspectorArgs(String[] args) {
+    private static String[] convertToStringArray(String command, Map<String, String> map) {
+        String[] array = new String[1 + map.size()];
+        array[0] = command;
+        int i = 0;
+        for (String key : map.keySet()) {
+            array[++i] = key + "=" + map.get(key);
+        }
+        return array;
+    }
+
+    public BirArgs(BitInspectorCommand command, Map<String, String> map) {
+        this(convertToStringArray(command.name().toLowerCase(), map));
+    }
+
+    public BirArgs(String command, Map<String, String> map) {
+        this(convertToStringArray(command, map));
+    }
+
+    public BirArgs(String[] args) {
         command = args.length == 0 ? "check" : args[0];
 
         if (args.length > 1) {
@@ -54,15 +71,20 @@ public class BitInspectorArgs {
 
         }
     }
+
     public boolean hasArgument(String arg) {
         return internalMap.containsKey(arg);
     }
+
     public void addArgument(String arg, String value) {
-        this.internalMap.put(arg,value);
+        this.internalMap.put(arg, value);
     }
 
     public String getArgument(String arg) {
         return internalMap.get(arg);
+    }
+    public boolean isVerboseLoggingEnabled() {
+        return hasArgument("verbose")&&getArgument("verbose").equals("true");
     }
 
 }

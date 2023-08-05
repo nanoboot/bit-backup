@@ -26,7 +26,7 @@ import lombok.ToString;
 
 /**
  *
- * @author robertvokac
+* @author <a href="mailto:robertvokac@nanoboot.org">Robert Vokac</a>
  */
 @Getter
 @Setter
@@ -40,5 +40,7 @@ public class FsFile {
     private String lastCheckDate;
     private String hashSumValue;
     private String hashSumAlgorithm;
+    private long size;
+    private String lastCheckResult;
     
 }

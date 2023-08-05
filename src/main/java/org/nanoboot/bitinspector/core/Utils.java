@@ -16,8 +16,11 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
+
 package org.nanoboot.bitinspector.core;
 
+import dev.mccue.guava.hash.Hashing;
+import dev.mccue.guava.io.Files;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
@@ -25,12 +28,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -38,7 +39,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author pc00289
+ * @author <a href="mailto:robertvokac@nanoboot.org">Robert Vokac</a>
  */
 public class Utils {
 
@@ -65,31 +66,6 @@ public class Utils {
         }
     }
 
-    public static int getCountOfSlashOccurences(String string) {
-        int i = 0;
-        for (char ch : string.toCharArray()) {
-            if (ch == '/') {
-                i++;
-            }
-        }
-        return i++;
-    }
-
-    public static List<File> listAdocFilesInDir(File dir) {
-        return listAdocFilesInDir(dir, new ArrayList<>());
-    }
-
-    private static List<File> listAdocFilesInDir(File dir, List<File> files) {
-        List<File> allFiles = listAllFilesInDir(dir, files);
-        List<File> adocFiles = new ArrayList<>();
-        for (File f : allFiles) {
-            if (f.getName().endsWith(".adoc") && !f.isDirectory()) {
-                adocFiles.add(f);
-            }
-        }
-        return adocFiles;
-    }
-
     public static List<File> listAllFilesInDir(File dir) {
         return listAllFilesInDir(dir, new ArrayList<>());
     }
@@ -106,21 +82,12 @@ public class Utils {
         return files;
     }
 
-    public static String createDoubleDotSlash(int times) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 1; i <= times; i++) {
-            sb.append("../");
-        }
-        String result = sb.toString();
-        return result;//.substring(0, result.length() - 1);
-    }
-
     public static void copyFile(File originalFile, File copiedFile) throws BitInspectorException {
         Path originalPath = originalFile.toPath();
         Path copied = new File(copiedFile, originalFile.getName()).toPath();
 
         try {
-            Files.copy(originalPath, copied, StandardCopyOption.REPLACE_EXISTING);
+            java.nio.file.Files.copy(originalPath, copied, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException ex) {
             ex.printStackTrace();
             throw new BitInspectorException("Copying file failed: " + originalFile.getAbsolutePath());
@@ -145,7 +112,7 @@ public class Utils {
             return "";
         }
         try {
-            return new String(Files.readAllBytes(Paths.get(file.getAbsolutePath())));
+            return new String(java.nio.file.Files.readAllBytes(Paths.get(file.getAbsolutePath())));
         } catch (IOException ex) {
             throw new BitInspectorException("Reading file failed: " + file.getName(), ex);
         }
@@ -176,24 +143,36 @@ public class Utils {
     }
 
     public static String calculateSHA512Hash(File file) {
-        final Path path = Paths.get(file.getAbsolutePath());
-        byte[] bytes;
         try {
-            bytes = Files.readAllBytes(path);
+            return Files.hash(file, Hashing.sha512()).toString();
+//        final Path path = Paths.get(file.getAbsolutePath());
+//        byte[] bytes;
+//        try {
+//            bytes = Files.readAllBytes(path);
+//        } catch (IOException ex) {
+//            throw new BitInspectorException(ex);
+//        }
+//        byte[] sha512sumByteArray;
+//        if(file.length() >= Integer.MAX_VALUE) {
+//            throw new RuntimeException("File is too large: " + file.getAbsolutePath());
+//        }
+//        try {
+//            sha512sumByteArray = MessageDigest.getInstance("SHA-512").digest(bytes);
+//        } catch (NoSuchAlgorithmException ex) {
+//            throw new BitInspectorException(ex);
+//        }
+//        StringBuilder sb = new StringBuilder(sha512sumByteArray.length * 2);
+//        for (byte b : sha512sumByteArray) {
+//            sb.append(String.format("%02x", b));
+//        }
+//        String hexString = sb.toString();
+//        return hexString;
         } catch (IOException ex) {
+            Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);
             throw new BitInspectorException(ex);
         }
-        byte[] sha512sumByteArray;
-        try {
-            sha512sumByteArray = MessageDigest.getInstance("SHA-512").digest(bytes);
-        } catch (NoSuchAlgorithmException ex) {
-            throw new BitInspectorException(ex);
-        }
-        StringBuilder sb = new StringBuilder(sha512sumByteArray.length * 2);
-        for (byte b : sha512sumByteArray) {
-            sb.append(String.format("%02x", b));
-        }
-        String hexString = sb.toString();
-        return hexString;
+    }
+    public static String createJdbcUrl(String directoryWhereSqliteFileIs) {
+        return "jdbc:sqlite:" + directoryWhereSqliteFileIs + "/" + ".bir.sqlite3?foreign_keys=on;";
     }
 }

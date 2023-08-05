@@ -19,24 +19,26 @@
 package org.nanoboot.bitinspector.commands;
 
 import org.nanoboot.bitinspector.core.Command;
-import org.nanoboot.bitinspector.core.BitInspectorArgs;
+import org.nanoboot.bitinspector.core.BirArgs;
 
 /**
  *
- * @author pc00289
+ * @author <a href="mailto:robertvokac@nanoboot.org">Robert Vokac</a>
  */
 public class HelpCommand implements Command {
+
+    public static final String NAME = "help";
 
     public HelpCommand() {
     }
 
     @Override
     public String getName() {
-        return "help";
+        return NAME;
     }
 
     @Override
-    public void run(BitInspectorArgs bitInspectorArgs) {
+    public String run(BirArgs bitInspectorArgs) {
         String str = """
     NAME
         bir - " Bit Inspector"
@@ -51,13 +53,15 @@ public class HelpCommand implements Command {
     COMMAND
         check       Generates the static website
                         OPTIONS
-                            reportid={unique name for this report, usually `date +'%Y%m%d_%H%M%S'`}
-                                Optional. Default= (nothing will be reported to file report.{reportid}.bitreport.txt).
+                            dir={working directory to be checked for bit rot}
+                                Optional. Default=. (current working directory)
+                            report=true or false
+                                Optional. Default= false (nothing will be reported to file .birreport.csv).
         help        Display help information
         version     Display version information                           
 """;
         System.out.println(str);
-
+        return str;
     }
 
 }

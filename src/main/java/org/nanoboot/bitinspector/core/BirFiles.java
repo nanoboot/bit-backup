@@ -18,18 +18,35 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 package org.nanoboot.bitinspector.core;
 
+import java.io.File;
+import lombok.Data;
+import lombok.Getter;
+import org.nanoboot.bitinspector.commands.BirIgnoreRegex;
+
 /**
+ *
  * @author <a href="mailto:robertvokac@nanoboot.org">Robert Vokac</a>
- * @since 0.0.0
  */
-public class Main {
+@Data
+@Getter
+public class BirFiles {
 
-    public static void main(String[] args) {
-        System.out.println("Bir - Detects bit rotten files in the given directory to keep your files forever.\n");
-     
-        BitInspector bitInspector = new BitInspector();
-        bitInspector.run(args);
+    private final File workingDir;
+    private final String workingDirAbsolutePath;
+    private final File birSQLite3File;
+    private final File birSQLite3FileSha512;
+    private final File birIgnore;
+    private final BirIgnoreRegex birIgnoreRegex;
+    private final File birReportCsv;
+    
+
+    public BirFiles(BirArgs bitInspectorArgs) {
+        workingDir = new File(bitInspectorArgs.hasArgument("dir") ? bitInspectorArgs.getArgument("dir") : ".");
+        workingDirAbsolutePath = workingDir.getAbsolutePath();
+        birSQLite3File = new File(workingDirAbsolutePath + "/.bir.sqlite3");
+        birSQLite3FileSha512 = new File(workingDirAbsolutePath + "/.bir.sqlite3.sha512");
+        birIgnore = new File(workingDirAbsolutePath + "/.birignore");
+        birIgnoreRegex = new BirIgnoreRegex(birIgnore);
+        birReportCsv = new File(workingDirAbsolutePath + "/.birreport.csv");
     }
-
-
 }

@@ -24,7 +24,7 @@ import org.nanoboot.bitinspector.entity.SystemItem;
 
 /**
  *
- * @author robertvokac
+* @author <a href="mailto:robertvokac@nanoboot.org">Robert Vokac</a>
  */
 public interface SystemItemRepository {
     String create(SystemItem systemItem);

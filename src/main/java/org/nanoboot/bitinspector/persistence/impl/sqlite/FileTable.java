@@ -24,7 +24,7 @@ import lombok.Setter;
 
 /**
  *
- * @author robertvokac
+* @author <a href="mailto:robertvokac@nanoboot.org">Robert Vokac</a>
  */
 @Getter
 @Setter
@@ -40,5 +40,8 @@ class FileTable {
     //
     public static final String HASH_SUM_VALUE = "HASH_SUM_VALUE";
     public static final String HASH_SUM_ALGORITHM = "HASH_SUM_ALGORITHM";
+    public static final String SIZE = "SIZE";
+    public static final String LAST_CHECK_RESULT = "LAST_CHECK_RESULT";
+    
 
 }

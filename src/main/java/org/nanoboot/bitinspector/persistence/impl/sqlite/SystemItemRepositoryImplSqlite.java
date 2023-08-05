@@ -30,9 +30,15 @@ import org.nanoboot.bitinspector.persistence.api.SystemItemRepository;
 
 /**
  *
- * @author robertvokac
+ * @author <a href="mailto:robertvokac@nanoboot.org">Robert Vokac</a>
  */
 public class SystemItemRepositoryImplSqlite implements SystemItemRepository {
+
+    public SystemItemRepositoryImplSqlite(SqliteConnectionFactory sqliteConnectionFactory) {
+        this.sqliteConnectionFactory = sqliteConnectionFactory;
+    }
+
+    private final SqliteConnectionFactory sqliteConnectionFactory;
 
     @Override
     public String create(SystemItem systemItem) {
@@ -52,7 +58,7 @@ public class SystemItemRepositoryImplSqlite implements SystemItemRepository {
         String sql = sb.toString();
         System.err.println(sql);
         try (
-                Connection connection = new SqliteConnectionFactory().createConnection(); PreparedStatement stmt = connection.prepareStatement(sql);) {
+                Connection connection = sqliteConnectionFactory.createConnection(); PreparedStatement stmt = connection.prepareStatement(sql);) {
             int i = 0;
             stmt.setString(++i, systemItem.getKey());
             stmt.setString(++i, systemItem.getValue());
@@ -95,7 +101,7 @@ public class SystemItemRepositoryImplSqlite implements SystemItemRepository {
         int i = 0;
         ResultSet rs = null;
         try (
-                Connection connection = new SqliteConnectionFactory().createConnection(); PreparedStatement stmt = connection.prepareStatement(sql);) {
+                Connection connection = sqliteConnectionFactory.createConnection(); PreparedStatement stmt = connection.prepareStatement(sql);) {
 
             stmt.setString(++i, key);
 

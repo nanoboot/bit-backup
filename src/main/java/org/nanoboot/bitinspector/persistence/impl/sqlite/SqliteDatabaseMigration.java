@@ -18,33 +18,48 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 package org.nanoboot.bitinspector.persistence.impl.sqlite;
 
+import org.nanoboot.bitinspector.core.Utils;
 import org.nanoboot.dbmigration.core.main.DBMigration;
+import org.nanoboot.dbmigration.core.main.MigrationResult;
 
 /**
  *
- * @author robertvokac
+* @author <a href="mailto:robertvokac@nanoboot.org">Robert Vokac</a>
  */
 public class SqliteDatabaseMigration {
 
-    public void migrate() {
+    private static SqliteDatabaseMigration INSTANCE;
+
+    private SqliteDatabaseMigration() {
+        //Not meant to be instantiated
+    }
+
+    public static SqliteDatabaseMigration getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new SqliteDatabaseMigration();
+        }
+        return INSTANCE;
+    }
+
+    public MigrationResult migrate(String directoryWhereSqliteFileIs) {
         try {
             Class.forName("org.sqlite.JDBC");
         } catch (ClassNotFoundException ex) {
             System.err.println(ex.getMessage());
             throw new RuntimeException(ex);
         }
-        System.err.println("jdbcUrl=" + Constants.JDBC_URL);
+        String jdbcUrl = Utils.createJdbcUrl(directoryWhereSqliteFileIs);
+        System.err.println("jdbcUrl=" + jdbcUrl);
         String clazz = this.getClass().getName();
         DBMigration dbMigration = DBMigration
                 .configure()
-                .dataSource(Constants.JDBC_URL)
+                .dataSource(jdbcUrl)
                 .installedBy("bitinspector-persistence-impl-sqlite")
                 .name("bitinspector")
                 .sqlDialect("sqlite", "org.nanoboot.dbmigration.core.persistence.impl.sqlite.DBMigrationPersistenceSqliteImpl")
                 .sqlMigrationsClass(clazz)
                 .load();
-        dbMigration.migrate();
+        return dbMigration.migrate();
     }
-    
 
 }

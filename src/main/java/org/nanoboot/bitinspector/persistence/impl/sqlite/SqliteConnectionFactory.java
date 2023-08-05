@@ -18,21 +18,26 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 package org.nanoboot.bitinspector.persistence.impl.sqlite;
 
+import org.nanoboot.bitinspector.persistence.api.ConnectionFactory;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import org.nanoboot.bitinspector.core.Utils;
 
 /**
  *
- * @author robertvokac
+ * @author <a href="mailto:robertvokac@nanoboot.org">Robert Vokac</a>
  */
-public class SqliteConnectionFactory {
-
+public class SqliteConnectionFactory implements ConnectionFactory {
+    private final String jdbcUrl;
+    public SqliteConnectionFactory(String directoryWhereSqliteFileIs) {
+        this.jdbcUrl = Utils.createJdbcUrl(directoryWhereSqliteFileIs);
+    }
     public Connection createConnection() throws ClassNotFoundException {
         try {
             Class.forName("org.sqlite.JDBC");
 
-            Connection conn = DriverManager.getConnection(Constants.JDBC_URL);
+            Connection conn = DriverManager.getConnection(jdbcUrl);
 
             return conn;
 

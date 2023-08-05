@@ -20,10 +20,10 @@ package org.nanoboot.bitinspector.persistence.impl.sqlite;
 
 /**
  *
- * @author robertvokac
+* @author <a href="mailto:robertvokac@nanoboot.org">Robert Vokac</a>
  */
 public class Constants {
-    static final String JDBC_URL = "jdbc:sqlite:" + "." + "/" + ".bir.sqlite3?foreign_keys=on;";
+    
     private Constants() {
         //Not meant to be instantiated.
     }
