@@ -1,14 +1,33 @@
 # bit-inspector
 
-"Bit Inspector" (Bir) is a tool to manage files. It is inspired by Git, but its goals are slightly different.
- * Hash sum of files is tracked
- * Detects bit rots to keep your files forever
+"Bit Inspector" (Bir) is a tool to manage files.
+ * It is inspired by Git, but its goals are slightly different.
+
+Features
+ * Tracking hash sum of files
+ * Backing up directory to another location (local, FTP(S), SFTP, HTTP(S), S3, Bir server
+ * Optionally you can set a password to protect your files (if a not trusted external location like FTP or S3 is used)
+ * Detecting bit rots (to keep your files forever) - found bit rots can be repaired.
  * Files are handled in a "Bir repository"
  * You can clone a remote repository
- * You can save your local repository to remote repository.
+ * You can save your local repository to a remote repository.
+ * Your files are versioned. You can travel in history and return to an older version of the whole repo or only a directory or one file.
 
+What is not supported:
+ * Conflict resolution is not supported. "Bir" is not intended be used by more users at once.
+   * Several people changing one Bir repository must be avoided.
+   * One Bir repository can be used by more users, but only one user can change it.
+ * Branches are not supported
+
+## Requirements
+
+Requirements to run "Bit Inspector":
+* Java 19
 
 ## How to build "Bit Inspector" on your own 
+Requirements to build "Bit Inspector:
+ * Java 19
+ * Maven
 
 ```
 git clone https://code.nanoboot.org/nanoboot/bit-inspector
@@ -17,7 +36,6 @@ mvn clean install
 ```
 
 ## How to setup your environment on Linux
-
 
 Add to your .bashrc:
 
@@ -49,13 +67,37 @@ You can:
 
 ### Cloning a remote repo
 
+#### Local
+
+```
+bir clone {path to local directory = Bir repository}
+```
+
 #### S3
 ```
-bir clone {endpoint url}/{bucket name}
+bir clone s3://http[s]://{endpoint url}/{bucket name}
 ```
 Then you will be asked for access key and secret key.
 
-### Using an existing bir repository
+#### FTP/FTPS/SFTP
+
+```
+bir clone {protocol}://[{user}:{password}]@{host url}:{port}/{directory}
+```
+
+#### HTTP/HTTPS
+
+```
+bir clone http[s]://[{user}:{password}]@{host url}:{port}/{directory}
+```
+
+#### Bir server (via Rest api)
+
+```
+bir clone bir:://[{user}:{password}]@{host url}:{port}/[path to repository/]{repository name}
+```
+
+### Using an existing Bir repository
 
 ### Creating a new empty Bir repository
 
