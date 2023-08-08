@@ -5,17 +5,19 @@
 
 Features
  * Tracking hash sum of files
- * Backing up directory to another location (local, FTP(S), SFTP, HTTP(S), S3, Bir server
+ * Backing up directory to another location like: local, FTP(S), SFTP, HTTP(S), S3, Bir server
  * Optionally you can set a password to protect your files (if a not trusted external location like FTP or S3 is used)
  * Detecting bit rots (to keep your files forever) - found bit rots can be repaired.
  * Files are handled in a "Bir repository"
  * You can clone a remote repository
  * You can save your local repository to a remote repository.
- * Your files are versioned. You can travel in history and return to an older version of the whole repo or only a directory or one file.
+ * Your files are versioned. You can travel in history and return to an older version of the whole repo or only a changed/deleted directory or file.
 
 What is not supported:
- * Conflict resolution is not supported. "Bir" is not intended be used by more users at once.
+ * Conflict resolution is not supported. (If you wish something not yet suuported to be added, please, let's start a discussion here or at forum.nanoboot.org)
+   * "Bir" is not intended to be used by many read/write users.
    * Several people changing one Bir repository must be avoided.
+   * "Bir" is not intended to be used by many read users and only one read/write user.  
    * One Bir repository can be used by more users, but only one user can change it.
  * Branches are not supported
 
@@ -47,12 +49,12 @@ bir {command} [{arg1} {arg2} {argn}]
 
 Example:
 ```
-bir clone dir=/home/johndoe/mydir url={local path or s3 bucket or FTP server or website url}
+bir clone path=/home/johndoe/mydir url={local path or s3 bucket or FTP server or website url}
 ```
 
 ### Arguments
 
-dir={path to directory}
+path={path to directory}
  * default:. (current working directory)
 
 ## Bir repository
@@ -65,7 +67,7 @@ You can:
  * or create a new empty Bir repository
  * or create a new Bir repository using an existing directory
 
-### Cloning a remote repo
+### Command : clone : Cloning a remote repo
 
 #### Local
 
@@ -116,7 +118,46 @@ Go to wanted directory or use argument dir={path to wanted directory} and run:
 bir init [dir to wanted directory]
 ```
 
+
 ### Commands
+
+Inspired by: 
+ * https://github.com/joshnh/Git-Commands
+ * https://git-scm.com/docs
+
+### help
+
+### version
+
+### config
+
+### restore
+
+### reset
+
+### mv
+
+### tag
+
+### revert
+
+### blame
+
+### clean
+
+### gc
+
+### clone
+
+### fsck
+
+### check
+
+### bundle
+
+```
+bir clone {url} [[--bare
+```
 
 ### init
 
@@ -125,20 +166,36 @@ Init commands creates new directory .bir with its structure
 bir init [dir={path to directory}]
 ```
 
+### remote add {remote name}
 
-bir – object storage – local/s3/ftp
+```
+bir remote add {remote name}
+```
 
- bir remote add {remote name}
-bir clone {remote name}
-bir save
-bir push {remote name}
-bir fetch
-bir pull
-bir status
+### bir commit
 
-directories:
-.bir
-.bir objects
+```
+bir commit [-m "{message}"]
+```
+
+### bir push {remote name}
+
+### bir fetch
+
+### bir pull
+
+### bir status
+
+### bir add
+
+### bir rm
+
+### bir stash
+
+### bir log
+
+### bir diff
+
 
 
 Table FILE – add new columns – linux_rights, owner, group
@@ -150,8 +207,12 @@ Table FILE – add new columns – linux_rights, owner, group
 
 .bir
 .bir/objects
+.bir/remotes/{remote name}
 .bir/bir.sqlite3 ... an SQLite database
-.bir/.bir.sqlite3.sha512 ...last calculated hash sum of file ".bir.sqlite3".
+.bir/bir.sqlite3.sha512 ...last calculated hash sum of file ".bir.sqlite3".
+.bir/config
+.bir/description
+
 
 ## File .birignore
 
