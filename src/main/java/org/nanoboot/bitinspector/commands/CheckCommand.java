@@ -40,7 +40,7 @@ import org.nanoboot.bitinspector.persistence.impl.sqlite.SqliteDatabaseMigration
 import org.nanoboot.dbmigration.core.main.MigrationResult;
 import org.nanoboot.powerframework.time.duration.Duration;
 import org.nanoboot.powerframework.time.moment.LocalDateTime;
-import org.nanoboot.powerframework.time.utils.RemainingTimeCalculator;
+import org.nanoboot.powerframework.time.utils.ProgressTracker;
 import org.nanoboot.powerframework.time.utils.TimeUnit;
 
 /**
@@ -348,7 +348,7 @@ public class CheckCommand implements Command {
         List<FsFile> filesToUpdateLastCheckDate = new ArrayList<>();
         int contentAndModTimeWereChanged = 0;
 
-        RemainingTimeCalculator rtc = new RemainingTimeCalculator(filesInDb.size() - filesToBeRemovedFromDb.size());
+        ProgressTracker progressTracker = new ProgressTracker(filesInDb.size() - filesToBeRemovedFromDb.size());
         for (FsFile fileInDb : filesInDb) {
             String absolutePathOfFileInDb = fileInDb.getAbsolutePath();
             if (filesToBeRemovedFromDb.contains(fileInDb)) {
@@ -356,12 +356,12 @@ public class CheckCommand implements Command {
                 continue;
 
             }
-            rtc.nextDone();
+            progressTracker.nextDone();
             processedCount = processedCount + 1;
             if (processedCount % 100 == 0) {
                 double progress = ((double) processedCount) / countOfFilesToCalculateHashSum * 100;
                 LOG.info("Update - Progress: " + processedCount + "/" + countOfFilesToCalculateHashSum + " " + String.format("%,.2f", progress) + "%");
-                LOG.info("Remains: " + Duration.of(rtc.getRemainingSecondsUntilEnd(), TimeUnit.SECOND).toHumanString());
+                LOG.info("Remains: " + Duration.of(progressTracker.getRemainingSecondsUntilEnd(), TimeUnit.SECOND).toHumanString());
             }
             File file = new File("./" + absolutePathOfFileInDb);
 
