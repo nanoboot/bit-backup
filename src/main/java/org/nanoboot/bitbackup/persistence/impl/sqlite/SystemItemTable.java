@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // bit-backup: Tool detecting bit rots in files.
-// Copyright (C) 2016-2022 the original author or authors.
+// Copyright (C) 2023-2023 the original author or authors.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -16,14 +16,23 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
+package org.nanoboot.bitbackup.persistence.impl.sqlite;
 
-module bitbackup {
-    requires org.apache.commons.io;
-    requires lombok;
-    requires org.apache.logging.log4j;
-    requires dbmigration.core;
-    requires java.sql;
-    requires powerframework.time;
-    requires powerframework.collections;
-    requires dev.mccue.guava.io;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+/**
+ *
+* @author <a href="mailto:mail@robertvokac.com">Robert Vokac</a>
+ */
+@Getter
+@Setter
+@AllArgsConstructor
+class SystemItemTable {
+    public static final String TABLE_NAME = "SYSTEM_ITEM";
+    
+    public static final String KEY = "KEY";
+    public static final String VALUE = "VALUE";
+
 }

@@ -1,27 +1,27 @@
-# bit-inspector
+# bit-backup
 
-"Bit Inspector" (Bir) is a tool to manage files.
+"Bit Backup" (Bib) is a tool to manage files.
 
 ## How to run
 
-Requirements to run "Bit Inspector":
+Requirements to run "Bit Backup":
 * Java 21
 
 ### How to setup your environment on Linux
 
 Add to your .bashrc:
 
-    alias bir='java -jar {path to bit-inspector jar with dependencies file}/bit-inspector-0.0.0-SNAPSHOT-jar-with-dependencies.jar'
+    alias bib='java -jar {path to bit-backup jar with dependencies file}/bit-backup-0.0.0-SNAPSHOT-jar-with-dependencies.jar'
 
 ## How to build
 
-Requirements to build "Bit Inspector:
+Requirements to build "Bit Backup:
  * Java 21
  * Maven
 
 ```
-git clone https://code.nanoboot.org/nanoboot/bit-inspector
-cd bit-inspector
+git clone https://code.nanoboot.org/nanoboot/bit-backup
+cd bit-backup
 mvn clean install
 ```
 
@@ -40,21 +40,21 @@ Inspired by:
  * https://github.com/ambv/bitrot
  * https://github.com/laktak/chkbit-py
 
-#### File .birignore
+#### File .bibignore
 
-You can create file .birignore containing the names of the files/directories you wish to ignore
-* .birignore is similar to Git file .gitignore
+You can create file .bibignore containing the names of the files/directories you wish to ignore
+* .bibignore is similar to Git file .gitignore
 * each line should contain exactly one name
 * lines starting with # are skipped
 * you may use Unix shell-style wildcards
 
-#### File .bir.sqlite3
+#### File .bib.sqlite3
 
-An SQLite database created and managed automatically by bit-inspector.
+An SQLite database created and managed automatically by bit-backup.
 
-#### File .bir.sqlite3.sha512
+#### File .bib.sqlite3.sha512
 
-Last calculated hash sum of file ".bir.sqlite3"
+Last calculated hash sum of file ".bib.sqlite3"
 
 ### Feature 2 : Backup of files
 
@@ -62,9 +62,9 @@ Inspired by Git, but goals are slightly different.
  * https://github.com/joshnh/Git-Commands
  * https://git-scm.com/docs
 
-#### File .birbackup
+#### File .bibbackup
 
-File .birbackup is stored in local directory, which you are going to backup.
+File .bibbackup is stored in local directory, which you are going to backup.
 
 Content:
 
@@ -74,45 +74,45 @@ remotes=remote1,remote2,remote3
 
 #### Features
 
- * Backing up directory to another location like: local, FTP(S), SFTP, HTTP(S), S3, Bir server and others
+ * Backing up directory to another location like: local, FTP(S), SFTP, HTTP(S), S3, Bib server and others
  * Optionally you can set a password to protect your files (if a not trusted external location like FTP or S3 is used)
  
- * Files are handled in a "Bir repository"
+ * Files are handled in a "Bib repository"
 
 #### What is not supported
 
  * Conflict resolution is not supported. (If you wish something not yet supported to be added, please, let's start a discussion here or at forum.nanoboot.org)
-   * "Bir" is not intended to be used by many read/write users.
-   * Several people changing one Bir repository must be avoided.
-   * "Bir" is not intended to be used by many read users and only one read/write user.  
-   * One Bir repository can be used by more users, but only one user can change it.
+   * "Bib" is not intended to be used by many read/write users.
+   * Several people changing one Bib repository must be avoided.
+   * "Bib" is not intended to be used by many read users and only one read/write user.  
+   * One Bib repository can be used by more users, but only one user can change it.
  * Branches are not supported
 
-## Bir repository
+## Bib repository
 
 * Your files are versioned. You can travel in history and return to an older version of the whole repo or only a changed/deleted directory or file.
 
 You can:
- * clone a remote Bir repository
- * or use an existing local Bir repository
- * or create a new empty Bir repository
- * or create a new Bir repository using an existing directory
+ * clone a remote Bib repository
+ * or use an existing local Bib repository
+ * or create a new empty Bib repository
+ * or create a new Bib repository using an existing directory
  * or save your local repository to a remote repository.
 
 ### Structure
 
-#### Directory .bir/objects
+#### Directory .bib/objects
 
-.bir/objects/{??}/{?????...}
+.bib/objects/{??}/{?????...}
 
-#### Directory .bir/pack
-.bir/pack/pack-{sha-512}.pack
+#### Directory .bib/pack
+.bib/pack/pack-{sha-512}.pack
 
 {sha-512}::::{length in bytes}::::{sha-512}::::{length in bytes}::::{sha-512}::::{length in bytes}::::{sha-512}::::{length in bytes}::::{sha-512}::::{length in bytes}::::::::{bytes -base}{bytes-incremental}{bytes-incremental}{bytes-incremental}{bytes-incremental}{bytes-incremental}
 
 binary diffs
 
-#### File .bir/birindex.{number}
+#### File .bib/bibindex.{number}
 
 https://stackabuse.com/linux-display-file-properties-via-terminal/
 
@@ -151,9 +151,9 @@ no permission   -   0
 ```
 
 ```
-Creates local .birindex
+Creates local .bibindex
 
-Downloads remote .birindex – if does not exist, empty file will be returned.
+Downloads remote .bibindex – if does not exist, empty file will be returned.
 
 Compares these indexes, uploads new blobs to object addressed system (SHA-512) – packaged to 7z archives (compression=ultra + other settings)
 
@@ -162,13 +162,13 @@ The most reliable way would be to make md5 hashes of all the local files you car
 Using file sizes isn't reliable for the obvious reason - a file could change but have the same size. I'm not a fan of using the archive bit or modified date because either of those could be confused if you backup or restore your local directory with another backup program.
 ```
 
-#### File .bir/birlog
+#### File .bib/biblog
 
-Contains index number of last bir index.
+Contains index number of last bib index.
 
-#### file .bir/description
+#### file .bib/description
 
-#### File .bir/config
+#### File .bib/config
 
 ```
 pack-file.files-until-size.mb=100
@@ -177,11 +177,11 @@ pack-file.max-size.mb=1000
 
 ## Commands
 
-bir {command} [{arg1} {arg2} {argn}]
+bib {command} [{arg1} {arg2} {argn}]
 
 Example:
 ```
-bir clone path=/home/johndoe/mydir url={local path or s3 bucket or FTP server or website url}
+bib clone path=/home/johndoe/mydir url={local path or s3 bucket or FTP server or website url}
 ```
 Arguments
 
@@ -196,49 +196,49 @@ Checks for bitrots in current directory
 ### clone : Cloning a remote repo
 
 ```
-bir clone {url} [[--bare]] [[revision number|tag]]
+bib clone {url} [[--bare]] [[revision number|tag]]
 ```
 
 #### Local
 
 ```
-bir clone {path to another local Bir repository - path to directory}
+bib clone {path to another local Bib repository - path to directory}
 ```
 
 #### S3
 ```
-bir clone s3://http[s]://{endpoint url}/{bucket name}
+bib clone s3://http[s]://{endpoint url}/{bucket name}
 ```
 Then you will be asked for access key and secret key.
 
 #### FTP/FTPS/SFTP
 
 ```
-bir clone {protocol}://[{user}:{password}]@{host url}:{port}/{directory}
+bib clone {protocol}://[{user}:{password}]@{host url}:{port}/{directory}
 ```
 
 #### HTTP/HTTPS
 
 ```
-bir clone http[s]://[{user}:{password}]@{host url}:{port}/{directory}
+bib clone http[s]://[{user}:{password}]@{host url}:{port}/{directory}
 ```
 
-#### Bir server (via Rest api)
+#### Bib server (via Rest api)
 
 ```
-bir clone bir:://[{user}:{password}]@{host url}:{port}/[path to repository/]{repository name}
+bib clone bib:://[{user}:{password}]@{host url}:{port}/[path to repository/]{repository name}
 ```
 
 ### init
 
-Init commands creates new directory .bir with its structure
+Init commands creates new directory .bib with its structure
 
 ```
-bir init [[--bare]]
+bib init [[--bare]]
 ```
 
- * Creating a new empty Bir repository
- * Creating a Bir repository using an existing directory
+ * Creating a new empty Bib repository
+ * Creating a Bib repository using an existing directory
 
 ### help
 
@@ -257,7 +257,7 @@ bir init [[--bare]]
 ### blame
 
 ```
-bir blame {file} {remote}
+bib blame {file} {remote}
 ```
 
 ### clean
@@ -265,7 +265,7 @@ bir blame {file} {remote}
 ### gc
 
 ```
-bir gc abc
+bib gc abc
 ```
 
 ### fsck
@@ -277,13 +277,13 @@ bir gc abc
 ### remote add {remote name}
 
 ```
-bir remote add {remote name}
+bib remote add {remote name}
 ```
 
 ```
-bir remote add abc protocol://user:pw|{}@host:port/directory[::password=encryption_password|{}::duplicate_count=1::exclude=::include=::]
-bir remote add wedos_disk_100gb_backup user:pw@host:port/directory::password=123::duplicate_count=2
-bir remote add abc user:pw|{}@host:port/directory::password=encryption_password|{}::duplicate_count={1, 0 is default}::compression_level={0-9,5 is default}
+bib remote add abc protocol://user:pw|{}@host:port/directory[::password=encryption_password|{}::duplicate_count=1::exclude=::include=::]
+bib remote add wedos_disk_100gb_backup user:pw@host:port/directory::password=123::duplicate_count=2
+bib remote add abc user:pw|{}@host:port/directory::password=encryption_password|{}::duplicate_count={1, 0 is default}::compression_level={0-9,5 is default}
 ```
 
 {} placeholders means, that user will be asked in console (to avoid the password to be in console history)
@@ -291,41 +291,41 @@ bir remote add abc user:pw|{}@host:port/directory::password=encryption_password|
 ### remote remove {remote name}
 
 ```
-bir remote remove abc
+bib remote remove abc
 ```
 
-### bir commit
+### bib commit
 
 ```
-bir commit [-m "{message}"]
+bib commit [-m "{message}"]
 ```
 
-### bir mirror {remote name}
+### bib mirror {remote name}
 
 ```
-bir mirror abc def ghi [-m message -t TAG]
-bir mirror @all
+bib mirror abc def ghi [-m message -t TAG]
+bib mirror @all
 ```
 
-### bir fetch
+### bib fetch
 
-### bir pull
+### bib pull
 
-### bir log
+### bib log
 
-### bir diff
+### bib diff
 
-### bir prune
+### bib prune
 
 ```
-bir prune origin --since 2021-10-04
-bir prune abc --since "2 months ago" | 10 … does not delete anything, only marks objects to be deleted
+bib prune origin --since 2021-10-04
+bib prune abc --since "2 months ago" | 10 … does not delete anything, only marks objects to be deleted
 ```
 
 ### verify
 
 ```
-bir verify abc
+bib verify abc
 ```
 
 ### repack

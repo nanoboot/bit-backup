@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- bit-inspector: Tool detecting bit rots in files.
+ bit-backup: Tool detecting bit rots in files.
  Copyright (C) 2016-2022 the original author or authors.
 
  This program is free software; you can redistribute it and/or
@@ -25,15 +25,15 @@
     <parent>
         <groupId>org.nanoboot.essential</groupId>
         <artifactId>nanoboot-parent</artifactId>
-        <version>0.1.1</version>
+        <version>0.1.1-SNAPSHOT</version>
     </parent>
 
     <groupId>org.nanoboot.tools</groupId>
-    <artifactId>bit-inspector</artifactId>
+    <artifactId>bit-backup</artifactId>
     <version>0.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>Bit Inspector</name>
+    <name>Bit Backup</name>
     <description>Tool detecting bit rots in files.</description>
 
     <properties>
@@ -81,7 +81,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>org.nanoboot.bitinspector.core.Main</mainClass>
+                            <mainClass>org.nanoboot.bitbackup.core.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
@@ -121,8 +121,8 @@
                         <configuration>
                             <resources>
                                 <resource>
-                                    <directory>src/main/resources/db_migrations/sqlite/bitinspector</directory>
-                                    <targetPath>db_migrations/sqlite/bitinspector</targetPath>
+                                    <directory>src/main/resources/db_migrations/sqlite/bitbackup</directory>
+                                    <targetPath>db_migrations/sqlite/bitbackup</targetPath>
                                     <includes>
                                         <include>*.sql</include>
                                     </includes>
