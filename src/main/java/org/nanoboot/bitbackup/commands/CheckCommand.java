@@ -100,7 +100,7 @@ public class CheckCommand implements Command {
             return "part 2 failed";
         }
         //part 3:
-        part3UpdateVersionInDbIfNeeded(bibContext);
+        part3UpdateVersionInDbIfNeeded(bibContext, bibFiles);
 
         ListSet<File> filesInFileSystem = part4FoundFilesInFileSystem(bibFiles, bibArgs);
         ListSet<FsFile> filesInDb = part5FoundFilesInDb(bibContext.getFileRepository(), bibArgs);
@@ -114,6 +114,9 @@ public class CheckCommand implements Command {
         part9CreateReportCsvIfNeeded(bibArgs, bibFiles, filesWithBitRot);
         part10CalculateCurrentHashSumOfDbFile(bibFiles);
 
+        if(Constants.MIGRATE_FROM_BIT_INSPECTOR_TO_BIT_BACKUP_IF_NEEDED && !bibFiles.getBirToBibReport().isEmpty()) {
+            Utils.writeTextToFile(bibFiles.getBirToBibReport().stream().collect(Collectors.joining("\n")), bibFiles.getBirToBibReportTxt());
+        }
         LOG.info("==========");
         LOG.info("Summary");
 
@@ -139,28 +142,30 @@ public class CheckCommand implements Command {
      * @param bibSQLite3FileSha512
      * @throws BitBackupException - if this check fails.
      */
-    private void part1CheckDbHasExpectedHashSum(BibFiles bitBackupFiles) throws BitBackupException {
+    private void part1CheckDbHasExpectedHashSum(BibFiles bibFiles) throws BitBackupException {
         LOG.info("** Part {}: Checking DB, if has expected check sum.", CheckCommandPart.CHECK_OLD_DB_CHECKSUM.number);
-        final File bibSQLite3File = bitBackupFiles.getBibSQLite3File();
-        final File birSQLite3File = bitBackupFiles.getBirSQLite3File();
-        final File bibSQLite3FileSha512 = bitBackupFiles.getBibSQLite3FileSha512();
-        final File birSQLite3FileSha512 = bitBackupFiles.getBirSQLite3FileSha512();
+        final File bibSQLite3File = bibFiles.getBibSQLite3File();
+        final File birSQLite3File = bibFiles.getBirSQLite3File();
+        final File bibSQLite3FileSha512 = bibFiles.getBibSQLite3FileSha512();
+        final File birSQLite3FileSha512 = bibFiles.getBirSQLite3FileSha512();
         if (Constants.MIGRATE_FROM_BIT_INSPECTOR_TO_BIT_BACKUP_IF_NEEDED && !bibSQLite3File.exists() && birSQLite3File.exists()) {
             //apply for migration to Bit Backup
             birSQLite3File.renameTo(bibSQLite3File);
+            bibFiles.getBirToBibReport().add("Renaming from : " + birSQLite3File.getAbsolutePath() + " to: " + bibSQLite3File.getAbsolutePath());
 
             if (!bibSQLite3FileSha512.exists() && birSQLite3FileSha512.exists()) {
                 //apply for migration to Bit Backup
                 birSQLite3FileSha512.renameTo(bibSQLite3FileSha512);
+                bibFiles.getBirToBibReport().add("Renaming from : " + birSQLite3FileSha512.getAbsolutePath() + " to: " + bibSQLite3FileSha512.getAbsolutePath());
             }
         }
-        final boolean dbExists = bitBackupFiles.getBibSQLite3File().exists();
-        final boolean checkSumExists = bitBackupFiles.getBibSQLite3FileSha512().exists();
+        final boolean dbExists = bibFiles.getBibSQLite3File().exists();
+        final boolean checkSumExists = bibFiles.getBibSQLite3FileSha512().exists();
 
         if (dbExists && checkSumExists) {
 
             String expectedHash = Utils.readTextFromFile(bibSQLite3FileSha512);
-            String returnedHash = Utils.calculateSHA512Hash(bitBackupFiles.getBibSQLite3File());
+            String returnedHash = Utils.calculateSHA512Hash(bibFiles.getBibSQLite3File());
             if (!returnedHash.equals(expectedHash)) {
                 String msg
                         = "Part {}: KO. "
@@ -169,7 +174,7 @@ public class CheckCommand implements Command {
                         + ". Expected SHA-512 hash sum was: "
                         + expectedHash
                         + " for file "
-                        + bitBackupFiles.getBibSQLite3File().getAbsolutePath();
+                        + bibFiles.getBibSQLite3File().getAbsolutePath();
                 LOG.error(msg, CheckCommandPart.CHECK_OLD_DB_CHECKSUM.number);
                 LOG.info("Exiting because of the previous error.");
                 throw new BitBackupException(msg);
@@ -199,7 +204,7 @@ public class CheckCommand implements Command {
         }
     }
 
-    private void part3UpdateVersionInDbIfNeeded(BibContext bibContext) {
+    private void part3UpdateVersionInDbIfNeeded(BibContext bibContext, BibFiles bibFiles) {
         LOG.info("** Part {}: Updating version, if needed.", CheckCommandPart.UPDATE_VERSION.number);
 
         if(Constants.MIGRATE_FROM_BIT_INSPECTOR_TO_BIT_BACKUP_IF_NEEDED){
@@ -207,6 +212,7 @@ public class CheckCommand implements Command {
             String birVersion = bibContext.getSystemItemRepository().read("bir.version").getValue();
             if (birVersion != null) {
                 bibContext.getSystemItemRepository().remove(BIRVERSION);
+                bibFiles.getBirToBibReport().add("Removing bir.version from database");
             }
         }
         String bibVersion = bibContext.getSystemItemRepository().read(BIBVERSION).getValue();
@@ -256,6 +262,8 @@ public class CheckCommand implements Command {
                 File bibIgnoreFile = new File(f.getParentFile(), bibFiles.getBibIgnore().getName());
                 if(!bibIgnoreFile.exists()) {
                     f.renameTo(bibIgnoreFile);
+                    bibFiles.getBirToBibReport().add("Renaming from : " + f.getAbsolutePath() + " to: " + bibIgnoreFile.getAbsolutePath());
+                    f = bibIgnoreFile;
                 }
             }
             
@@ -269,10 +277,10 @@ public class CheckCommand implements Command {
                 foundFilesInCurrentDir(f, filesAlreadyFound, bibFiles);
             } else {
                 ++foundFiles;
-                if (f.getAbsolutePath().equals(bibFiles.getBirSQLite3File().getAbsolutePath())) {
+                if (f.getAbsolutePath().equals(bibFiles.getBibSQLite3File().getAbsolutePath())) {
                     continue;
                 }
-                if (f.getAbsolutePath().equals(bibFiles.getBirSQLite3FileSha512().getAbsolutePath())) {
+                if (f.getAbsolutePath().equals(bibFiles.getBibSQLite3FileSha512().getAbsolutePath())) {
                     continue;
                 }
 
@@ -439,10 +447,10 @@ public class CheckCommand implements Command {
             }
 
         }
-        LOG.info("Part {}: Updating files - found bit rots - content was changed and last modification is the same): {}",
+        LOG.info("Part {}: Updating files - " + (filesWithBitRot.isEmpty() ? "no" : "some") + " files with bit rots - content was changed and last modification is the same: {}",
                 CheckCommandPart.COMPARE_CONTENT_AND_LAST_MODTIME.number,
                 filesWithBitRot.size());
-        LOG.info("Part {}: Updating files - content and last modification date were changed): {}",
+        LOG.info("Part {}: Updating files - content and last modification date were changed: {}",
                 CheckCommandPart.COMPARE_CONTENT_AND_LAST_MODTIME.number,
                 contentAndModTimeWereChanged);
         LOG.info("Part {}: Updating files - content and last modification date were not changed): {}",
@@ -493,7 +501,7 @@ public class CheckCommand implements Command {
 
     private void part10CalculateCurrentHashSumOfDbFile(BibFiles bibFiles) {
         LOG.info("** Part {}: Calculating current hash sum of DB file", CheckCommandPart.CHECK_NEW_DB_CHECKSUM.number);
-        Utils.writeTextToFile(Utils.calculateSHA512Hash(bibFiles.getBirSQLite3File()), bibFiles.getBirSQLite3FileSha512());
+        Utils.writeTextToFile(Utils.calculateSHA512Hash(bibFiles.getBibSQLite3File()), bibFiles.getBibSQLite3FileSha512());
     }
 
 }

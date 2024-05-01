@@ -145,7 +145,7 @@ public class SystemItemRepositoryImplSqlite implements SystemItemRepository {
         try (
                 Connection connection = sqliteConnectionFactory.createConnection(); PreparedStatement stmt = connection.prepareStatement(sql);) {
 
-            stmt.executeQuery();
+            stmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);

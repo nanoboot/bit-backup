@@ -19,6 +19,8 @@
 package org.nanoboot.bitbackup.core;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Data;
 import lombok.Getter;
 import org.nanoboot.bitbackup.commands.BibIgnoreRegex;
@@ -40,6 +42,11 @@ public class BibFiles {
     private final File bibReportCsv;
     
     @Deprecated
+    private final File birToBibReportTxt;
+    @Deprecated
+    private final List<String> birToBibReport = new ArrayList<>();
+    
+    @Deprecated
     private final File birSQLite3File;
     @Deprecated
     private final File birSQLite3FileSha512;
@@ -59,5 +66,6 @@ public class BibFiles {
         birSQLite3File = new File(workingDirAbsolutePath + "/.bir.sqlite3");
         birSQLite3FileSha512 = new File(workingDirAbsolutePath + "/.bir.sqlite3.sha512");
         birIgnore = new File(workingDirAbsolutePath + "/.birignore");
+        birToBibReportTxt = new File(workingDirAbsolutePath + "/.bir_to_bib-report.txt");
     }
 }
