@@ -453,7 +453,7 @@ public class CheckCommand implements Command {
         LOG.info("Part {}: Updating files - content and last modification date were changed: {}",
                 CheckCommandPart.COMPARE_CONTENT_AND_LAST_MODTIME.number,
                 contentAndModTimeWereChanged);
-        LOG.info("Part {}: Updating files - content and last modification date were not changed): {}",
+        LOG.info("Part {}: Updating files - content and last modification date were not changed: {}",
                 CheckCommandPart.COMPARE_CONTENT_AND_LAST_MODTIME.number,
                 filesToUpdateLastCheckDate.size());
         bibContext.getFileRepository().updateLastCheckDate(now.toString(), filesToUpdateLastCheckDate);

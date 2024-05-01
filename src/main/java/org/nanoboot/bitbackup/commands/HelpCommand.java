@@ -45,7 +45,7 @@ public class HelpCommand implements Command {
                            
     SYNOPSIS
         bib [command] [options]
-        If no command is provided, then the default command check is used. This means, if you run "bit-backup", it is the same, as to run "bib check".
+        If no command is provided, then the default command check is used. This means, if you run "bib", it is the same, as to run "bib check".
                            
     DESCRIPTION
         Detects bit rotten files in the given directory to keep your files forever.
