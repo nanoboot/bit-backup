@@ -19,15 +19,12 @@
 package org.nanoboot.bitbackup.persistence.impl.sqlite;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.nanoboot.bitbackup.core.Constants;
 import org.nanoboot.bitbackup.core.Utils;
-import org.nanoboot.bitbackup.entity.SystemItem;
 import org.nanoboot.dbmigration.core.main.DBMigration;
 import org.nanoboot.dbmigration.core.main.MigrationResult;
 
@@ -60,21 +57,7 @@ public class SqliteDatabaseMigration {
         String jdbcUrl = Utils.createJdbcUrl(directoryWhereSqliteFileIs);
         System.err.println("jdbcUrl=" + jdbcUrl);
         String clazz = this.getClass().getName();
-        if (Constants.MIGRATE_FROM_BIT_INSPECTOR_TO_BIT_BACKUP_IF_NEEDED) {
 
-            String sql = "UPDATE DB_MIGRATION_SCHEMA_HISTORY SET MIGRATION_GROUP='bitbackup' WHERE MIGRATION_GROUP='bitinspector'";
-
-            try (
-                    Connection connection = new SqliteConnectionFactory(directoryWhereSqliteFileIs).createConnection(); Statement stmt = connection.createStatement();) {
-
-                stmt.executeUpdate(sql);
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-                throw new RuntimeException(e);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(SystemItemRepositoryImplSqlite.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
         DBMigration dbMigration = DBMigration
                 .configure()
                 .dataSource(jdbcUrl)

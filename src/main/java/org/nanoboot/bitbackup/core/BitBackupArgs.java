@@ -26,7 +26,7 @@ import lombok.Getter;
  *
  * @author <a href="mailto:mail@robertvokac.com">Robert Vokac</a>
  */
-public class BibArgs {
+public class BitBackupArgs {
 
     @Getter
     private final String command;
@@ -42,15 +42,15 @@ public class BibArgs {
         return array;
     }
 
-    public BibArgs(BitInspectorCommand command, Map<String, String> map) {
+    public BitBackupArgs(BitInspectorCommand command, Map<String, String> map) {
         this(convertToStringArray(command.name().toLowerCase(), map));
     }
 
-    public BibArgs(String command, Map<String, String> map) {
+    public BitBackupArgs(String command, Map<String, String> map) {
         this(convertToStringArray(command, map));
     }
 
-    public BibArgs(String[] args) {
+    public BitBackupArgs(String[] args) {
         command = args.length == 0 ? "check" : args[0];
 
         if (args.length > 1) {

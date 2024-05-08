@@ -44,10 +44,10 @@ public class BitInspector {
     }
        
     public void run(String[] args) {
-        run(new BibArgs(args));
+        run(new BitBackupArgs(args));
     }
     
-    public void run(BibArgs bitBackupArgs) {
+    public void run(BitBackupArgs bitBackupArgs) {
         String command = bitBackupArgs.getCommand();
         Command foundCommand = null;
         for(Command e:commandImplementations) {

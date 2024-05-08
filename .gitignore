@@ -12,5 +12,5 @@
 
 /nbproject/
 *nbactions.xml
-.bib.sqlite3**
+.bitbackup.sqlite3**
 

@@ -25,7 +25,7 @@ package org.nanoboot.bitbackup.core;
  */
 public interface Command {
     public String getName();
-    default String run(BibArgs bitInspectorArgs) {
+    default String run(BitBackupArgs bitInspectorArgs) {
         throw new BitBackupException("Not yet implemented.");
     }
     

@@ -19,7 +19,7 @@
 package org.nanoboot.bitbackup.commands;
 
 import org.nanoboot.bitbackup.core.Command;
-import org.nanoboot.bitbackup.core.BibArgs;
+import org.nanoboot.bitbackup.core.BitBackupArgs;
 
 /**
  *
@@ -38,14 +38,14 @@ public class HelpCommand implements Command {
     }
 
     @Override
-    public String run(BibArgs bitInspectorArgs) {
+    public String run(BitBackupArgs bitInspectorArgs) {
         String str = """
     NAME
-        bib - " Bit Backup"
+        bitbackup - " Bit Backup"
                            
     SYNOPSIS
-        bib [command] [options]
-        If no command is provided, then the default command check is used. This means, if you run "bib", it is the same, as to run "bib check".
+        bitbackup [command] [options]
+        If no command is provided, then the default command check is used. This means, if you run "bitbackup", it is the same, as to run "bitbackup check".
                            
     DESCRIPTION
         Detects bit rotten files in the given directory to keep your files forever.
@@ -56,7 +56,7 @@ public class HelpCommand implements Command {
                             dir={working directory to be checked for bit rot}
                                 Optional. Default=. (current working directory)
                             report=true or false
-                                Optional. Default= false (nothing will be reported to file .bibreport.csv).
+                                Optional. Default= false (nothing will be reported to file .bitbackupreport.csv).
         help        Display help information
         version     Display version information                           
 """;

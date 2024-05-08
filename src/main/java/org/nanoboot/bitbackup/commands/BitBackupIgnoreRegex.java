@@ -29,24 +29,25 @@ import org.nanoboot.bitbackup.core.Utils;
  *
  * @author <a href="mailto:mail@robertvokac.com">Robert Vokac</a>
  */
-public class BibIgnoreRegex implements Predicate<String> {
+public class BitBackupIgnoreRegex implements Predicate<String> {
     
     private final List<String> patterns = new ArrayList<>();
     
-    public BibIgnoreRegex(File bibIgnoreFile) {
+    public BitBackupIgnoreRegex(File bitBackupIgnoreFile) {
         
         patterns.add(convertUnixRegexToJavaRegex("*.birreport.csv"));
         patterns.add(convertUnixRegexToJavaRegex("*.bibreport.csv"));
-        this.addBibIgnoreFile(bibIgnoreFile);
+        patterns.add(convertUnixRegexToJavaRegex("*.bitbackupreport.csv"));
+        this.addBitBackupIgnoreFile(bitBackupIgnoreFile);
         
     }
 
-    public final void addBibIgnoreFile(File bibIgnoreFile) {
-        addBibIgnoreFile(bibIgnoreFile, null);
+    public final void addBitBackupIgnoreFile(File bitBackupIgnoreFile) {
+        addBitBackupIgnoreFile(bitBackupIgnoreFile, null);
     }
-    public final void addBibIgnoreFile(File bibIgnoreFile, File workingDir) {
-        String[] lines = bibIgnoreFile.exists() ? Utils.readTextFromFile(bibIgnoreFile).split("\\R") : new String[]{};
-        String addPrefix = workingDir == null ? "" : bibIgnoreFile.getParentFile().getAbsolutePath().replace(workingDir.getAbsolutePath() + "/", "");
+    public final void addBitBackupIgnoreFile(File bitBackupIgnoreFile, File workingDir) {
+        String[] lines = bitBackupIgnoreFile.exists() ? Utils.readTextFromFile(bitBackupIgnoreFile).split("\\R") : new String[]{};
+        String addPrefix = workingDir == null ? "" : bitBackupIgnoreFile.getParentFile().getAbsolutePath().replace(workingDir.getAbsolutePath() + "/", "");
             
         for (String l : lines) {
             if (l.isBlank() || l.trim().startsWith("#")) {

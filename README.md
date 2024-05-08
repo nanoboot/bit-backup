@@ -1,6 +1,6 @@
 # bit-backup
 
-"Bit Backup" (Bib) is a tool to manage files.
+"Bit Backup" is a tool to manage files.
 
 ## How to run
 
@@ -11,7 +11,7 @@ Requirements to run "Bit Backup":
 
 Add to your .bashrc:
 
-    alias bib='java -jar {path to bit-backup jar with dependencies file}/bit-backup-0.0.0-SNAPSHOT-jar-with-dependencies.jar'
+    alias bitbackup='java -jar {path to bit-backup jar with dependencies file}/bit-backup-0.0.0-SNAPSHOT-jar-with-dependencies.jar'
 
 ## How to build
 
@@ -40,21 +40,21 @@ Inspired by:
  * https://github.com/ambv/bitrot
  * https://github.com/laktak/chkbit-py
 
-#### File .bibignore
+#### File .bitbackupignore
 
-You can create file .bibignore containing the names of the files/directories you wish to ignore
-* .bibignore is similar to Git file .gitignore
+You can create file .bitbackupignore containing the names of the files/directories you wish to ignore
+* .bitbackupignore is similar to Git file .gitignore
 * each line should contain exactly one name
 * lines starting with # are skipped
 * you may use Unix shell-style wildcards
 
-#### File .bib.sqlite3
+#### File .bitbackup.sqlite3
 
 An SQLite database created and managed automatically by bit-backup.
 
-#### File .bib.sqlite3.sha512
+#### File .bitbackup.sqlite3.sha512
 
-Last calculated hash sum of file ".bib.sqlite3"
+Last calculated hash sum of file ".bitbackup.sqlite3"
 
 ### Feature 2 : Backup of files
 
@@ -62,9 +62,9 @@ Inspired by Git, but goals are slightly different.
  * https://github.com/joshnh/Git-Commands
  * https://git-scm.com/docs
 
-#### File .bibbackup
+#### File .bitbackup
 
-File .bibbackup is stored in local directory, which you are going to backup.
+File .bitbackup is stored in local directory, which you are going to backup.
 
 Content:
 
@@ -74,45 +74,45 @@ remotes=remote1,remote2,remote3
 
 #### Features
 
- * Backing up directory to another location like: local, FTP(S), SFTP, HTTP(S), S3, Bib server and others
+ * Backing up directory to another location like: local, FTP(S), SFTP, HTTP(S), S3, Bit Backup server and others
  * Optionally you can set a password to protect your files (if a not trusted external location like FTP or S3 is used)
  
- * Files are handled in a "Bib repository"
+ * Files are handled in a "Bit Backup repository"
 
 #### What is not supported
 
  * Conflict resolution is not supported. (If you wish something not yet supported to be added, please, let's start a discussion here or at forum.nanoboot.org)
-   * "Bib" is not intended to be used by many read/write users.
-   * Several people changing one Bib repository must be avoided.
-   * "Bib" is not intended to be used by many read users and only one read/write user.  
-   * One Bib repository can be used by more users, but only one user can change it.
+   * "Bit Backup" is not intended to be used by many read/write users.
+   * Several people changing one Bit Backup repository must be avoided.
+   * "Bit Backup" is not intended to be used by many read users and only one read/write user.  
+   * One Bit Backup repository can be used by more users, but only one user can change it.
  * Branches are not supported
 
-## Bib repository
+## Bit Backup repository
 
 * Your files are versioned. You can travel in history and return to an older version of the whole repo or only a changed/deleted directory or file.
 
 You can:
- * clone a remote Bib repository
- * or use an existing local Bib repository
- * or create a new empty Bib repository
- * or create a new Bib repository using an existing directory
+ * clone a remote Bit Backup repository
+ * or use an existing local Bit Backup repository
+ * or create a new empty Bit Backup repository
+ * or create a new Bit Backup repository using an existing directory
  * or save your local repository to a remote repository.
 
 ### Structure
 
-#### Directory .bib/objects
+#### Directory .bitbackup/objects
 
-.bib/objects/{??}/{?????...}
+.bitbackup/objects/{??}/{?????...}
 
-#### Directory .bib/pack
-.bib/pack/pack-{sha-512}.pack
+#### Directory .bitbackup/pack
+.bitbackup/pack/pack-{sha-512}.pack
 
 {sha-512}::::{length in bytes}::::{sha-512}::::{length in bytes}::::{sha-512}::::{length in bytes}::::{sha-512}::::{length in bytes}::::{sha-512}::::{length in bytes}::::::::{bytes -base}{bytes-incremental}{bytes-incremental}{bytes-incremental}{bytes-incremental}{bytes-incremental}
 
 binary diffs
 
-#### File .bib/bibindex.{number}
+#### File .bitbackup/bitbackupindex.{number}
 
 https://stackabuse.com/linux-display-file-properties-via-terminal/
 
@@ -151,9 +151,9 @@ no permission   -   0
 ```
 
 ```
-Creates local .bibindex
+Creates local .bitbackupindex
 
-Downloads remote .bibindex – if does not exist, empty file will be returned.
+Downloads remote .bitbackupindex – if does not exist, empty file will be returned.
 
 Compares these indexes, uploads new blobs to object addressed system (SHA-512) – packaged to 7z archives (compression=ultra + other settings)
 
@@ -162,13 +162,13 @@ The most reliable way would be to make md5 hashes of all the local files you car
 Using file sizes isn't reliable for the obvious reason - a file could change but have the same size. I'm not a fan of using the archive bit or modified date because either of those could be confused if you backup or restore your local directory with another backup program.
 ```
 
-#### File .bib/biblog
+#### File .bitbackup/bitbackuplog
 
-Contains index number of last bib index.
+Contains index number of last bitbackup index.
 
-#### file .bib/description
+#### file .bitbackup/description
 
-#### File .bib/config
+#### File .bitbackup/config
 
 ```
 pack-file.files-until-size.mb=100
@@ -177,11 +177,11 @@ pack-file.max-size.mb=1000
 
 ## Commands
 
-bib {command} [{arg1} {arg2} {argn}]
+bitbackup {command} [{arg1} {arg2} {argn}]
 
 Example:
 ```
-bib clone path=/home/johndoe/mydir url={local path or s3 bucket or FTP server or website url}
+bitbackup clone path=/home/johndoe/mydir url={local path or s3 bucket or FTP server or website url}
 ```
 Arguments
 
@@ -196,49 +196,49 @@ Checks for bitrots in current directory
 ### clone : Cloning a remote repo
 
 ```
-bib clone {url} [[--bare]] [[revision number|tag]]
+bitbackup clone {url} [[--bare]] [[revision number|tag]]
 ```
 
 #### Local
 
 ```
-bib clone {path to another local Bib repository - path to directory}
+bitbackup clone {path to another local Bit Backup repository - path to directory}
 ```
 
 #### S3
 ```
-bib clone s3://http[s]://{endpoint url}/{bucket name}
+bitbackup clone s3://http[s]://{endpoint url}/{bucket name}
 ```
 Then you will be asked for access key and secret key.
 
 #### FTP/FTPS/SFTP
 
 ```
-bib clone {protocol}://[{user}:{password}]@{host url}:{port}/{directory}
+bitbackup clone {protocol}://[{user}:{password}]@{host url}:{port}/{directory}
 ```
 
 #### HTTP/HTTPS
 
 ```
-bib clone http[s]://[{user}:{password}]@{host url}:{port}/{directory}
+bitbackup clone http[s]://[{user}:{password}]@{host url}:{port}/{directory}
 ```
 
-#### Bib server (via Rest api)
+#### Bit Backup server (via Rest api)
 
 ```
-bib clone bib:://[{user}:{password}]@{host url}:{port}/[path to repository/]{repository name}
+bitbackup clone bitbackup:://[{user}:{password}]@{host url}:{port}/[path to repository/]{repository name}
 ```
 
 ### init
 
-Init commands creates new directory .bib with its structure
+Init commands creates new directory .bitbackup with its structure
 
 ```
-bib init [[--bare]]
+bitbackup init [[--bare]]
 ```
 
- * Creating a new empty Bib repository
- * Creating a Bib repository using an existing directory
+ * Creating a new empty Bit Backup repository
+ * Creating a Bit Backup repository using an existing directory
 
 ### help
 
@@ -257,7 +257,7 @@ bib init [[--bare]]
 ### blame
 
 ```
-bib blame {file} {remote}
+bitbackup blame {file} {remote}
 ```
 
 ### clean
@@ -265,7 +265,7 @@ bib blame {file} {remote}
 ### gc
 
 ```
-bib gc abc
+bitbackup gc abc
 ```
 
 ### fsck
@@ -277,13 +277,13 @@ bib gc abc
 ### remote add {remote name}
 
 ```
-bib remote add {remote name}
+bitbackup remote add {remote name}
 ```
 
 ```
-bib remote add abc protocol://user:pw|{}@host:port/directory[::password=encryption_password|{}::duplicate_count=1::exclude=::include=::]
-bib remote add wedos_disk_100gb_backup user:pw@host:port/directory::password=123::duplicate_count=2
-bib remote add abc user:pw|{}@host:port/directory::password=encryption_password|{}::duplicate_count={1, 0 is default}::compression_level={0-9,5 is default}
+bitbackup remote add abc protocol://user:pw|{}@host:port/directory[::password=encryption_password|{}::duplicate_count=1::exclude=::include=::]
+bitbackup remote add wedos_disk_100gb_backup user:pw@host:port/directory::password=123::duplicate_count=2
+bitbackup remote add abc user:pw|{}@host:port/directory::password=encryption_password|{}::duplicate_count={1, 0 is default}::compression_level={0-9,5 is default}
 ```
 
 {} placeholders means, that user will be asked in console (to avoid the password to be in console history)
@@ -291,41 +291,41 @@ bib remote add abc user:pw|{}@host:port/directory::password=encryption_password|
 ### remote remove {remote name}
 
 ```
-bib remote remove abc
+bitbackup remote remove abc
 ```
 
-### bib commit
+### bitbackup commit
 
 ```
-bib commit [-m "{message}"]
+bitbackup commit [-m "{message}"]
 ```
 
-### bib mirror {remote name}
+### bitbackup mirror {remote name}
 
 ```
-bib mirror abc def ghi [-m message -t TAG]
-bib mirror @all
+bitbackup mirror abc def ghi [-m message -t TAG]
+bitbackup mirror @all
 ```
 
-### bib fetch
+### bitbackup fetch
 
-### bib pull
+### bitbackup pull
 
-### bib log
+### bitbackup log
 
-### bib diff
+### bitbackup diff
 
-### bib prune
+### bitbackup prune
 
 ```
-bib prune origin --since 2021-10-04
-bib prune abc --since "2 months ago" | 10 … does not delete anything, only marks objects to be deleted
+bitbackup prune origin --since 2021-10-04
+bitbackup prune abc --since "2 months ago" | 10 … does not delete anything, only marks objects to be deleted
 ```
 
 ### verify
 
 ```
-bib verify abc
+bitbackup verify abc
 ```
 
 ### repack

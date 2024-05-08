@@ -28,6 +28,5 @@ import java.text.SimpleDateFormat;
 public class Constants {
     
     public static final SimpleDateFormat YYYYMMDDHHMMSSZ_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ssZ");
-    public static final boolean MIGRATE_FROM_BIT_INSPECTOR_TO_BIT_BACKUP_IF_NEEDED = System.getProperties().containsKey("allowBirToBibMigrationIfNeeded");
     
 }

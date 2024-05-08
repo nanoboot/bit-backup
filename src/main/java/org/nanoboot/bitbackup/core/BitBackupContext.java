@@ -31,7 +31,7 @@ import org.nanoboot.bitbackup.persistence.impl.sqlite.SystemItemRepositoryImplSq
  *
 * @author <a href="mailto:mail@robertvokac.com">Robert Vokac</a>
  */
-public class BibContext {
+public class BitBackupContext {
     private final String directoryWhereSqliteFileIs;
     private ConnectionFactory connectionFactory;
     @Getter
@@ -39,7 +39,7 @@ public class BibContext {
     @Getter
     private FileRepository fileRepository;
     
-    public BibContext(String directoryWhereSqliteFileIs) {
+    public BitBackupContext(String directoryWhereSqliteFileIs) {
         this.directoryWhereSqliteFileIs = directoryWhereSqliteFileIs;
         this.connectionFactory = new SqliteConnectionFactory(directoryWhereSqliteFileIs);
         systemItemRepository = new SystemItemRepositoryImplSqlite((SqliteConnectionFactory) connectionFactory);

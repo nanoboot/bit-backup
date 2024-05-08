@@ -114,7 +114,7 @@ public class Utils {
         try {
             return new String(java.nio.file.Files.readAllBytes(Paths.get(file.getAbsolutePath())));
         } catch (IOException ex) {
-            throw new BitBackupException("Reading file failed: " + file.getName(), ex);
+            throw new BitBackupException("Reading file failed: " + file.getAbsolutePath(), ex);
         }
     }
 
@@ -173,6 +173,6 @@ public class Utils {
         }
     }
     public static String createJdbcUrl(String directoryWhereSqliteFileIs) {
-        return "jdbc:sqlite:" + directoryWhereSqliteFileIs + "/" + ".bib.sqlite3?foreign_keys=on;";
+        return "jdbc:sqlite:" + directoryWhereSqliteFileIs + "/" + ".bitbackup.sqlite3?foreign_keys=on;";
     }
 }

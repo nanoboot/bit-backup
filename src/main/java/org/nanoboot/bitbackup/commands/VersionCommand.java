@@ -22,7 +22,7 @@ package org.nanoboot.bitbackup.commands;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.nanoboot.bitbackup.core.Command;
-import org.nanoboot.bitbackup.core.BibArgs;
+import org.nanoboot.bitbackup.core.BitBackupArgs;
 
 /**
  *
@@ -41,7 +41,7 @@ private static final Logger LOG = LogManager.getLogger(VersionCommand.class);
     }
 
     @Override
-    public String run(BibArgs bitInspectorArgs) {
+    public String run(BitBackupArgs bitInspectorArgs) {
         String result = "Bit Backup 0.0.0-SNAPSHOT";
         LOG.info(result);
         return result;

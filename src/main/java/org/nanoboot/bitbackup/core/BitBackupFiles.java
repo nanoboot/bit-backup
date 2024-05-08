@@ -19,11 +19,9 @@
 package org.nanoboot.bitbackup.core;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.Data;
 import lombok.Getter;
-import org.nanoboot.bitbackup.commands.BibIgnoreRegex;
+import org.nanoboot.bitbackup.commands.BitBackupIgnoreRegex;
 
 /**
  *
@@ -31,41 +29,26 @@ import org.nanoboot.bitbackup.commands.BibIgnoreRegex;
  */
 @Data
 @Getter
-public class BibFiles {
+public class BitBackupFiles {
 
     private final File workingDir;
     private final String workingDirAbsolutePath;
-    private final File bibSQLite3File;
-    private final File bibSQLite3FileSha512;
-    private final File bibIgnore;
-    private final BibIgnoreRegex bibIgnoreRegex;
-    private final File bibReportCsv;
+    private final File bitBackupSQLite3File;
+    private final File bitBackupSQLite3FileSha512;
+    private final File bitBackupIgnore;
+    private final BitBackupIgnoreRegex bitBackupIgnoreRegex;
+    private final File bitBackupReportCsv;
     
-    @Deprecated
-    private final File birToBibReportTxt;
-    @Deprecated
-    private final List<String> birToBibReport = new ArrayList<>();
     
-    @Deprecated
-    private final File birSQLite3File;
-    @Deprecated
-    private final File birSQLite3FileSha512;
-    @Deprecated
-    private final File birIgnore;
     
 
-    public BibFiles(BibArgs bitInspectorArgs) {
+    public BitBackupFiles(BitBackupArgs bitInspectorArgs) {
         workingDir = new File(bitInspectorArgs.hasArgument("dir") ? bitInspectorArgs.getArgument("dir") : ".");
         workingDirAbsolutePath = workingDir.getAbsolutePath();
-        bibSQLite3File = new File(workingDirAbsolutePath + "/.bib.sqlite3");
-        bibSQLite3FileSha512 = new File(workingDirAbsolutePath + "/.bib.sqlite3.sha512");
-        bibIgnore = new File(workingDirAbsolutePath + "/.bibignore");
-        bibIgnoreRegex = new BibIgnoreRegex(bibIgnore);
-        bibReportCsv = new File(workingDirAbsolutePath + "/.bibreport.csv");
-        //
-        birSQLite3File = new File(workingDirAbsolutePath + "/.bir.sqlite3");
-        birSQLite3FileSha512 = new File(workingDirAbsolutePath + "/.bir.sqlite3.sha512");
-        birIgnore = new File(workingDirAbsolutePath + "/.birignore");
-        birToBibReportTxt = new File(workingDirAbsolutePath + "/.bir_to_bib-report.txt");
+        bitBackupSQLite3File = new File(workingDirAbsolutePath + "/.bitbackup.sqlite3");
+        bitBackupSQLite3FileSha512 = new File(workingDirAbsolutePath + "/.bitbackup.sqlite3.sha512");
+        bitBackupIgnore = new File(workingDirAbsolutePath + "/.bitbackupignore");
+        bitBackupIgnoreRegex = new BitBackupIgnoreRegex(bitBackupIgnore);
+        bitBackupReportCsv = new File(workingDirAbsolutePath + "/.bitbackupreport.csv");
     }
 }
