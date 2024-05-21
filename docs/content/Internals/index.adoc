@@ -32,17 +32,32 @@ binary diffs
 
 ==== Content
 
-----
-PATH	FILE_NAME	TYPE	LINK_TARGET	PERMISSIONS	SUID	SGID	STICKY_BIR	EXECUTABLE	UID	GID	OWNER	GROUP	LAST_MOD_TIME	LAST_CHANGE_TIME	LAST_ACCESS_TIME	SIZE	HASH	PACKAGE_UUID	ACL	ATTRS	IMMUTABLE 	UNDELETABLE
-/home/robertvokac       doc.txt -              rwxrw-r--                                                           2             2             robertvokac                robertvokac       20220110151617999      20220110151617999       20220110151617999      263         {}                PACKAGE_UUID                                              1             1
-----
+|===
+| Attribute | Example | Description
 
-----
-TYPE	DIR d, REGULAR -, LINK l
-LINK_TARGET	The target is in the content of binary object
-PERMISSIONS	rwxrw-r--
-HASH	SHA-512:{}
-----
+| PATH | /home/robertvokac |
+| FILE_NAME | doc.txt |
+| TYPE | - | DIR d, REGULAR -, LINK l
+| LINK_TARGET | a/b/text.txt | The target is in the content of binary object
+| PERMISSIONS | rwxrw-r-- |
+| SUID |  |
+| SGID |  |
+| STICKY_BIT |  |
+| EXECUTABLE | 1 |
+| UID | 2 |
+| GID | 2 |
+| OWNER | robertvokac |
+| GROUP | robertvokac |
+| LAST_MOD_TIME | 20220110151617999 |
+| LAST_CHANGE_TIME | 20220110151617999 |
+| LAST_ACCESS_TIME | 20220110151617999 |
+| SIZE | 263 |
+| HASH | SHA-256:{} |
+| ACL | aaa |
+| IMMUTABLE | aaa |
+| UNDELETABLE | aaa |
+| ATTRS | aaa |
+|===
 
 
 
