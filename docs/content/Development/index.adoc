@@ -1,0 +1,26 @@
+= Bit Backup - Documentation
+
+////
+weight=100
+////
+
+////
++++
+title = "Development"
+date = "2024-05-21"
+menu = "main"
++++
+////
+
+== How to build
+
+Requirements:
+
+ * Java 21
+ * Maven
+
+----
+git clone https://code.nanoboot.org/nanoboot/bit-backup
+cd bit-backup
+mvn clean install
+----

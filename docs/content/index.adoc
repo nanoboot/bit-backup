@@ -1,0 +1,14 @@
+= Bit Backup - Documentation
+
+////
++++
+title = "About"
+date = "2024-05-21"
+menu = "main"
++++
+////
+
+"Bit Backup" is a backup tool used to manage files.
+
+Inspired by Borg Backup, but is slightly different.
+

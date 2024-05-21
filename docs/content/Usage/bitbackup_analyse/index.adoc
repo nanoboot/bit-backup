@@ -1,0 +1,26 @@
+= Bit Backup - Documentation
+
+////
+weight=900
+////
+
+////
++++
+title = "bitbackup analyse"
+date = "2024-05-21"
+menu = "main"
++++
+////
+
+== Description
+
+WARNING: This command does not involve "Bit Backup" repository. Instead it is intended for additional control of integrity of files.
+
+This command is intended for creation list of files and directories in the given root directory together with all their file attributes.
+
+ * If the file bitbackupindex exists at the start, then: 
+ ** file bitbackupindexold (if exists) is deleted
+ ** file bitbackupindex is renamed to bitbackupindexold
+ * The output of analyse command (list of files and directories) is stored to file bitbackupindex.
+
+== Examples

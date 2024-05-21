@@ -1,0 +1,77 @@
+= Bit Backup - Documentation
+
+////
+weight=200
+////
+
+////
++++
+title = "Internals"
+date = "2024-05-21"
+menu = "main"
++++
+////
+
+== Structure of "Bit Backup" repository
+
+=== Directory {REPODIR}/objects
+
+SHA-256 hash is used (or an alternative hash, if supported)
+
+objects/{??}/{?????...}
+
+=== Directory {REPODIR}/pack
+
+pack/pack-{sha-512}.pack
+
+{sha-256}::::{length in bytes}::::{sha-256}::::{length in bytes}::::{sha-512}::::{length in bytes}::::{sha-512}::::{length in bytes}::::{sha-512}::::{length in bytes}::::::::{bytes -base}{bytes-incremental}{bytes-incremental}{bytes-incremental}{bytes-incremental}{bytes-incremental}
+
+binary diffs
+
+=== File(s) {REPODIR}/bitbackupindex.{datetime}
+
+==== Content
+
+----
+PATH	FILE_NAME	TYPE	LINK_TARGET	PERMISSIONS	SUID	SGID	STICKY_BIR	EXECUTABLE	UID	GID	OWNER	GROUP	LAST_MOD_TIME	LAST_CHANGE_TIME	LAST_ACCESS_TIME	SIZE	HASH	PACKAGE_UUID	ACL	ATTRS	IMMUTABLE 	UNDELETABLE
+/home/robertvokac       doc.txt -              rwxrw-r--                                                           2             2             robertvokac                robertvokac       20220110151617999      20220110151617999       20220110151617999      263         {}                PACKAGE_UUID                                              1             1
+----
+
+----
+TYPE	DIR d, REGULAR -, LINK l
+LINK_TARGET	The target is in the content of binary object
+PERMISSIONS	rwxrw-r--
+HASH	SHA-512:{}
+----
+
+
+
+----
+Permission  Symbolic Representation Octal Representation
+read    r   4
+write   w   2
+execute x   1
+no permission   -   0
+----
+
+----
+Creates local .bitbackupindex
+
+Downloads remote .bitbackupindex – if does not exist, empty file will be returned.
+
+Compares these indexes, uploads new blobs to object addressed system (SHA-512) – packaged to 7z archives (compression=ultra + other settings)
+
+The most reliable way would be to make md5 hashes of all the local files you care about and store it in a file. So the file will contain a list of filenames and their md5 hashes. Store that file on your ftp server. When you want to update the files on your ftp server, download the file containing the list, compare that against all your local files, and upload the files that have changed (or are new). That way you don't have to worry about archive bits, modified date, or looking at file sizes, the use of which can never be 100% reliable.
+
+Using file sizes isn't reliable for the obvious reason - a file could change but have the same size. I'm not a fan of using the archive bit or modified date because either of those could be confused if you backup or restore your local directory with another backup program.
+----
+
+=== File(s) {REPODIR}/bitbackupindexinfo.{datetime}
+
+----
+DATE=20231105
+TIME=102950
+VERSION=1
+MESSAGE=
+TAG=
+----

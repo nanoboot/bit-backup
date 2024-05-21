@@ -1,0 +1,33 @@
+= Bit Backup - Documentation
+
+////
+weight=900
+////
+
+////
++++
+title = "bitbackup inspect"
+date = "2024-05-21"
+menu = "main"
++++
+////
+
+== Description
+
+WARNING: This command does not involve "Bit Backup" repository. Instead it is intended for additional control of integrity of files.
+
+This command is intended for Bit Rot Detection (to keep your files forever).
+
+ * Current hash sum of files is tracked in file bitbackupindex.
+ * Previous hash sum of files is tracked in file bitbackupindexold.
+ * Files bitbackupindex and bitbackupindexold are compared.
+ * If the current and previous last modification date of a file are the same, but the calculated checksum is different, then a bit rot was detected.
+
+Found bit rots can be probably repaired, but only in case, you used commands like init and create
+
+Inspired by:
+
+ * https://github.com/ambv/bitrot
+ * https://github.com/laktak/chkbit-py
+
+== Examples

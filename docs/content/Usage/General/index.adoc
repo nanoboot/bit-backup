@@ -1,0 +1,95 @@
+= Bit Backup - Documentation
+
+////
+weight=1000
+////
+
+////
++++
+title = "General"
+date = "2024-05-21"
+menu = "main"
++++
+////
+
+== Features
+
+ * Backing up directory to another location like: local, FTP(S), SFTP, HTTP(S), S3, Bit Backup server and others
+ * Optionally you can set a password to protect your files (if a not trusted external location like FTP or S3 is used)
+ 
+ * Files are handled in a "Bit Backup repository"
+
+== What is not supported
+
+ * Conflict resolution is not supported. (If you wish something not yet supported to be added, please, let's start a discussion here or at forum.nanoboot.org)
+   * "Bit Backup" is not intended to be used by many read/write users.
+   * Several people changing one Bit Backup repository must be avoided.
+   * "Bit Backup" is not intended to be used by many read users and only one read/write user.  
+   * One Bit Backup repository can be used by more users, but only one user can change it.
+ * Branches are not supported
+
+== File .bitbackupignore
+
+You can create file .bitbackupignore containing the names of the files/directories you wish to ignore (don't backup or analyse)
+
+ * .bitbackupignore is similar to Git file .gitignore
+ * each line should contain exactly one name
+ * lines starting with # are skipped
+ * you may use Unix shell-style wildcards
+
+== "Bit Backup" Repository
+
+"Bit Backup" repository is a directory with a defined structure, where "Bit Backup" stores backups of directories.
+
+* Your files are versioned. You can travel in history and return to an older version of the whole repo or only a changed/deleted directory or file.
+
+You can:
+ * clone a remote Bit Backup repository
+ * or use an existing local Bit Backup repository
+ * or create a new empty Bit Backup repository
+ * or create a new Bit Backup repository using an existing directory
+ * or save your local repository to a remote repository.
+
+== Directory(ies) to be backed up
+
+These are 1 or more directories, you want to backup
+
+== File bitbackupindex
+
+Created and managed automatically by bit-backup.
+
+This is a text file with a defined structure.
+
+In fact, it is a CSV file, where the columns are separated by the tab character.
+
+Each row represent one file of directory
+
+Each column represents one of file properties
+
+== File bitbackupindex.sha256
+
+Created and managed automatically by bit-backup.
+
+This file contains the calculated sha256 hash of file bitbackupindex
+
+== File bitbackupindexold
+
+Created and managed automatically by bit-backup.
+
+This is the previous file bitbackupindex.
+
+== File bitbackupindexold.sha256
+
+Created and managed automatically by bit-backup.
+
+This file contains the calculated sha256 hash of file bitbackupindexold
+
+== File .bitbackup
+
+File .bitbackup is an optional file. You can save remotes and the credentials here to avoid typing it.
+
+Content:
+
+----
+remotes=remote1,remote2,remote3
+----

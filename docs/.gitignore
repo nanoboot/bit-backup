@@ -1,0 +1,12 @@
+#files to ignore
+
+*.metadata/**
+*.recommenders/**
+*target/**
+*build/**
+*.idea/**
+*.iml
+
+#*.class
+/target/
+*generated/*

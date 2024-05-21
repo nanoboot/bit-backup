@@ -1,0 +1,26 @@
+= Bit Backup - Documentation
+
+////
+weight=1000
+////
+
+////
++++
+title = "Installation"
+date = "2024-05-21"
+menu = "main"
++++
+////
+
+== Requirements
+
+* Java 21
+
+== Environment setup on Linux
+
+Add to your .bashrc:
+
+    alias bitbackup='java -jar {path to bit-backup jar with dependencies file}/bit-backup-0.0.0-SNAPSHOT-jar-with-dependencies.jar'
+
+
+
