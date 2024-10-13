@@ -23,12 +23,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.nanoboot.essential</groupId>
-        <artifactId>nanoboot-parent</artifactId>
+        <groupId>com.robertvokac.essential</groupId>
+        <artifactId>robertvokac-parent</artifactId>
         <version>0.1.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>org.nanoboot.tools</groupId>
+    <groupId>com.robertvokac.tools</groupId>
     <artifactId>bit-backup</artifactId>
     <version>0.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
@@ -81,7 +81,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>org.nanoboot.bitbackup.core.Main</mainClass>
+                            <mainClass>com.robertvokac.bitbackup.core.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
@@ -139,17 +139,17 @@
     <dependencies>
         <!-- Power dependencies -->
         <dependency>
-            <groupId>org.nanoboot.powerframework</groupId>
+            <groupId>com.robertvokac.powerframework</groupId>
             <artifactId>power-time</artifactId>
             <version>${power.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.nanoboot.powerframework</groupId>
+            <groupId>com.robertvokac.powerframework</groupId>
             <artifactId>power-random</artifactId>
             <version>${power.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.nanoboot.powerframework</groupId>
+            <groupId>com.robertvokac.powerframework</groupId>
             <artifactId>power-collections</artifactId>
             <version>${power.version}</version>
         </dependency>
@@ -175,7 +175,7 @@
         </dependency>
 
         <dependency>
-            <groupId>org.nanoboot.tools.dbmigration</groupId>
+            <groupId>com.robertvokac.tools.dbmigration</groupId>
             <artifactId>db-migration-core</artifactId>
             <version>${db-migration-core.version}</version>
         </dependency>
@@ -221,29 +221,29 @@
 
     </dependencies>
 
-    <repositories>
+    <repositories>        
         <repository>
-            <id>releases</id>
-            <name>nanoboot-releases-repository</name>
-            <url>https://maven.nanoboot.org/releases</url>
+            <id>robertvokac-releases-repository</id>
+            <name>robertvokac-releases-repository</name>
+            <url>https://maven.robertvokac.com/releases</url>
         </repository>
         <repository>
-            <id>snapshots</id>
-            <name>nanoboot-snapshots-repository</name>
-            <url>https://maven.nanoboot.org/snapshots</url>
+            <id>robertvokac-snapshots-repository</id>
+            <name>robertvokac-snapshots-repository</name>
+            <url>https://maven.robertvokac.com/snapshots</url>
         </repository>
     </repositories>
 
-    <pluginRepositories>
+    <pluginRepositories>        
         <pluginRepository>
-            <id>releases</id>
-            <name>nanoboot-releases-repository</name>
-            <url>https://maven.nanoboot.org/releases</url>
+            <id>robertvokac-releases-repository</id>
+            <name>robertvokac-releases-repository</name>
+            <url>https://maven.robertvokac.com/releases</url>
         </pluginRepository>
         <pluginRepository>
-            <id>snapshots</id>
-            <name>nanoboot-snapshots-repository</name>
-            <url>https://maven.nanoboot.org/snapshots</url>
+            <id>robertvokac-snapshots-repository</id>
+            <name>robertvokac-snapshots-repository</name>
+            <url>https://maven.robertvokac.com/snapshots</url>
         </pluginRepository>
     </pluginRepositories>
 	

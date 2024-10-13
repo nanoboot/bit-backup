@@ -1,0 +1,15 @@
+https://github.com/puniverse/javafs
+
+https://davidvlijmincx.com/posts/writing_a_simple_filesystem_using_fuse_and_java_17/
+
+https://stackoverflow.com/questions/30532167/support-write-operation-in-fuse-filesystem-using-fuse-j
+
+https://winfsp.dev/
+
+bitbackup - maybe use sha-256 instead of sha-512
+
+https://www.sanfoundry.com/java-program-implement-rolling-hash/
+
+https://github.com/lemire/rollinghashjava
+
+

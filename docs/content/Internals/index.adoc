@@ -39,27 +39,22 @@ binary diffs
 | FILE_NAME | doc.txt |
 | TYPE | - | DIR d, REGULAR -, LINK l
 | LINK_TARGET | a/b/text.txt | The target is in the content of binary object
-| PERMISSIONS | rwxrw-r-- |
-| SUID |  |
-| SGID |  |
-| STICKY_BIT |  |
-| EXECUTABLE | 1 |
 | UID | 2 |
 | GID | 2 |
 | OWNER | robertvokac |
 | GROUP | robertvokac |
+| UNIX_PERMISSIONS | rwxrw-r-- |
+| ACL | aaa |
 | LAST_MOD_TIME | 20220110151617999 |
 | LAST_CHANGE_TIME | 20220110151617999 |
 | LAST_ACCESS_TIME | 20220110151617999 |
 | SIZE | 263 |
-| HASH | SHA-256:{} |
-| ACL | aaa |
-| IMMUTABLE | aaa |
-| UNDELETABLE | aaa |
+| HASH_ALGORITHM | SHA-256 |
+| HASH_SUM | {} |
 | ATTRS | aaa |
 |===
 
-
+bitbackupinfo
 
 ----
 Permission  Symbolic Representation Octal Representation

@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // bit-backup: Tool detecting bit rots in files.
-// Copyright (C) 2016-2022 the original author or authors.
+// Copyright (C) 2023-2023 the original author or authors.
 //
 // This program is free software: you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -18,13 +18,30 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-module bitbackup {
-    requires org.apache.commons.io;
-    requires lombok;
-    requires org.apache.logging.log4j;
-    requires dbmigration.core;
-    requires java.sql;
-    requires powerframework.time;
-    requires powerframework.collections;
-    requires dev.mccue.guava.io;
+package com.robertvokac.bitbackup.entity;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+/**
+ *
+* @author <a href="mailto:mail@robertvokac.com">Robert Vokac</a>
+ */
+@Getter
+@Setter
+@AllArgsConstructor
+@ToString
+public class FsFile {
+    private final String id;
+    private String name;
+    private String absolutePath;
+    private String lastModificationDate;
+    private String lastCheckDate;
+    private String hashSumValue;
+    private String hashSumAlgorithm;
+    private long size;
+    private String lastCheckResult;
+    
 }

@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // bit-backup: Tool detecting bit rots in files.
-// Copyright (C) 2016-2022 the original author or authors.
+// Copyright (C) 2023-2023 the original author or authors.
 //
 // This program is free software: you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -17,14 +17,32 @@
 // <https://www.gnu.org/licenses/> or write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
+package com.robertvokac.bitbackup.persistence.impl.sqlite;
 
-module bitbackup {
-    requires org.apache.commons.io;
-    requires lombok;
-    requires org.apache.logging.log4j;
-    requires dbmigration.core;
-    requires java.sql;
-    requires powerframework.time;
-    requires powerframework.collections;
-    requires dev.mccue.guava.io;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+/**
+ *
+* @author <a href="mailto:mail@robertvokac.com">Robert Vokac</a>
+ */
+@Getter
+@Setter
+@AllArgsConstructor
+class FileTable {
+    public static final String TABLE_NAME = "FILE";
+    
+    public static final String ID = "ID";
+    public static final String NAME = "NAME";
+    public static final String ABSOLUTE_PATH = "ABSOLUTE_PATH";
+    public static final String LAST_MODIFICATION_DATE = "LAST_MODIFICATION_DATE";
+    public static final String LAST_CHECK_DATE = "LAST_CHECK_DATE";
+    //
+    public static final String HASH_SUM_VALUE = "HASH_SUM_VALUE";
+    public static final String HASH_SUM_ALGORITHM = "HASH_SUM_ALGORITHM";
+    public static final String SIZE = "SIZE";
+    public static final String LAST_CHECK_RESULT = "LAST_CHECK_RESULT";
+    
+
 }
