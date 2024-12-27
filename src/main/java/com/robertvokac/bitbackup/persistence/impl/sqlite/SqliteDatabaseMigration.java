@@ -19,12 +19,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 package com.robertvokac.bitbackup.persistence.impl.sqlite;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import com.robertvokac.bitbackup.core.Constants;
 import com.robertvokac.bitbackup.core.Utils;
 import com.robertvokac.dbmigration.core.main.DBMigration;
 import com.robertvokac.dbmigration.core.main.MigrationResult;

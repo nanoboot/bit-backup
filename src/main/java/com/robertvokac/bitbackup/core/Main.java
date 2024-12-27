@@ -28,8 +28,8 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Bir - Detects bit rotten files in the given directory to keep your files forever.\n");
      
-        BitInspector bitInspector = new BitInspector();
-        bitInspector.run(args);
+        BitBackup bitBackup = new BitBackup();
+        bitBackup.run(args);
     }
 
 

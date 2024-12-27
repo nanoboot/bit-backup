@@ -42,7 +42,7 @@ private static final Logger LOG = LogManager.getLogger(VersionCommand.class);
     }
 
     @Override
-    public String run(BitBackupArgs bitInspectorArgs) {
+    public String run(BitBackupArgs bitBackupArgs) {
         String result = "Bit Backup 0.0.0-SNAPSHOT";
         LOG.info(result);
         return result;

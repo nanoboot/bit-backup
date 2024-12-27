@@ -32,12 +32,12 @@ import com.robertvokac.bitbackup.commands.VersionCommand;
  *
  * @author <a href="mailto:mail@robertvokac.com">Robert Vokac</a>
  */
-public class BitInspector {
+public class BitBackup {
 
-    private static final Logger LOG = LogManager.getLogger(BitInspector.class);
+    private static final Logger LOG = LogManager.getLogger(BitBackup.class);
     
     private final Set<Command> commandImplementations;
-    public BitInspector() {
+    public BitBackup() {
         commandImplementations = new HashSet<>();
         commandImplementations.add(new CheckCommand());
         commandImplementations.add(new HelpCommand());

@@ -24,6 +24,6 @@ package com.robertvokac.bitbackup.core;
  *
 * @author <a href="mailto:mail@robertvokac.com">Robert Vokac</a>
  */
-public enum BitInspectorCommand {
+public enum BitBackupCommand {
     CHECK, HELP, VERSION;
 }

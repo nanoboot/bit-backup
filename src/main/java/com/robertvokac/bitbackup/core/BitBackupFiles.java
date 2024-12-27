@@ -39,10 +39,8 @@ public class BitBackupFiles {
     private final File bitBackupIgnore;
     private final BitBackupIgnoreRegex bitBackupIgnoreRegex;
     private final File bitBackupReportCsv;
+    private final File bitbackupindex;
     
-    
-    
-
     public BitBackupFiles(BitBackupArgs bitInspectorArgs) {
         workingDir = new File(bitInspectorArgs.hasArgument("dir") ? bitInspectorArgs.getArgument("dir") : ".");
         workingDirAbsolutePath = workingDir.getAbsolutePath();
@@ -51,5 +49,6 @@ public class BitBackupFiles {
         bitBackupIgnore = new File(workingDirAbsolutePath + "/.bitbackupignore");
         bitBackupIgnoreRegex = new BitBackupIgnoreRegex(bitBackupIgnore);
         bitBackupReportCsv = new File(workingDirAbsolutePath + "/.bitbackupreport.csv");
+        bitbackupindex = new File(workingDirAbsolutePath + "/.bitbackupindex.csv");
     }
 }

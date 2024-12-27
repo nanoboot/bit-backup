@@ -39,7 +39,7 @@ public class HelpCommand implements Command {
     }
 
     @Override
-    public String run(BitBackupArgs bitInspectorArgs) {
+    public String run(BitBackupArgs bitBackupArgs) {
         String str = """
     NAME
         bitbackup - " Bit Backup"

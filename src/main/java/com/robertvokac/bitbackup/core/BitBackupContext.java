@@ -36,9 +36,9 @@ public class BitBackupContext {
     private final String directoryWhereSqliteFileIs;
     private ConnectionFactory connectionFactory;
     @Getter
-    private SystemItemRepository systemItemRepository;
+    private final SystemItemRepository systemItemRepository;
     @Getter
-    private FileRepository fileRepository;
+    private final FileRepository fileRepository;
     
     public BitBackupContext(String directoryWhereSqliteFileIs) {
         this.directoryWhereSqliteFileIs = directoryWhereSqliteFileIs;

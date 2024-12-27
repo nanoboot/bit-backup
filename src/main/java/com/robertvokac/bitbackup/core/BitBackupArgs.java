@@ -43,7 +43,7 @@ public class BitBackupArgs {
         return array;
     }
 
-    public BitBackupArgs(BitInspectorCommand command, Map<String, String> map) {
+    public BitBackupArgs(BitBackupCommand command, Map<String, String> map) {
         this(convertToStringArray(command.name().toLowerCase(), map));
     }
 

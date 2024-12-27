@@ -185,7 +185,7 @@ public class CheckCommand implements Command {
                 LOG.error("Part {}: KO. Failed.", CheckCommandPart.MIGRATE_DB_SCHEMA_IF_NEEDED.number);
                 throw new RuntimeException("Part " + CheckCommandPart.MIGRATE_DB_SCHEMA_IF_NEEDED.number + ": KO. Failed.");
             }
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             LOG.error("Part {}: KO. {}", CheckCommandPart.MIGRATE_DB_SCHEMA_IF_NEEDED.number, e.getMessage());
             return false;
         }
@@ -212,7 +212,7 @@ public class CheckCommand implements Command {
         List<File> filesAlreadyFound = new ArrayList<>();
         List<File> filesInDirList = foundFilesInCurrentDir(bitBackupFiles.getWorkingDir(), filesAlreadyFound, bitBackupFiles);
 
-        Utils.writeTextToFile(bitbackupindex.toString(), new File("bitbackupindex"));
+        Utils.writeTextToFile(bitbackupindexSB.toString(), bitBackupFiles.getBitbackupindex());
         ListSet<File> listSet = new ListSet<>(filesInDirList, f -> loadPathButOnlyTheNeededPart(bitBackupFiles.getWorkingDir(), f));
 
         LOG.info("Part {}: Found {} files.", CheckCommandPart.FOUND_FILES_IN_FILESYSTEM.number, listSet.size());
@@ -225,7 +225,7 @@ public class CheckCommand implements Command {
     private String loadPathButOnlyTheNeededPart(File currentDir, File file) {
         return file.getAbsolutePath().substring(currentDir.getAbsolutePath().length() + 1);
     }
-    private StringBuilder bitbackupindex = new StringBuilder();
+    private final StringBuilder bitbackupindexSB = new StringBuilder();
     static int iii = 0;
 
     private int foundFiles;
@@ -238,13 +238,13 @@ public class CheckCommand implements Command {
 
             boolean isBitBackupIgnore = f.getName().equals(bitBackupFiles.getBitBackupIgnore().getName());
             
-            if (isBitBackupIgnore && !f.getAbsolutePath().equals(bitBackupFiles.getBitBackupIgnore().getAbsoluteFile())) {
+            if (isBitBackupIgnore && !f.getAbsolutePath().equals(bitBackupFiles.getBitBackupIgnore().getAbsolutePath())) {
                 bitBackupFiles.getBitBackupIgnoreRegex().addBitBackupIgnoreFile(f, bitBackupFiles.getWorkingDir());
             }
             if (f.isDirectory()) {
                 ++foundDirs;
                 try {
-                    bitbackupindex.append(new FileEntry(f).toCsvLine()).append("\n");
+                    bitbackupindexSB.append(new FileEntry(f).toCsvLine()).append("\n");
                 } catch (IOException ex) {
                     java.util.logging.Logger.getLogger(CheckCommand.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -264,7 +264,7 @@ public class CheckCommand implements Command {
                     continue;
                 }
                 try {
-                    bitbackupindex.append(new FileEntry(f).toCsvLine()).append("\n");
+                    bitbackupindexSB.append(new FileEntry(f).toCsvLine()).append("\n");
                 } catch (IOException ex) {
                     java.util.logging.Logger.getLogger(CheckCommand.class.getName()).log(Level.SEVERE, null, ex);
                 }
