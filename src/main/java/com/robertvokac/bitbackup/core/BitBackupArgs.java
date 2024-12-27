@@ -87,5 +87,9 @@ public class BitBackupArgs {
     public boolean isVerboseLoggingEnabled() {
         return hasArgument("verbose")&&getArgument("verbose").equals("true");
     }
+    
+    public boolean isBitBackupIndexEnabled() {
+        return hasArgument("bitbackupindex")&&getArgument("bitbackupindex").equals("true");
+    }
 
 }

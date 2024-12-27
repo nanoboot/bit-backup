@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import java.util.logging.Level;
 import java.util.stream.Collectors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -105,7 +104,12 @@ public class CheckCommand implements Command {
         //part 3:
         part3UpdateVersionInDbIfNeeded(bitBackupContext, bitBackupFiles);
 
-        ListSet<File> filesInFileSystem = part4FoundFilesInFileSystem(bitBackupFiles, bitBackupArgs);
+        ListSet<File> filesInFileSystem;
+        try {
+            filesInFileSystem = part4FoundFilesInFileSystem(bitBackupFiles, bitBackupArgs);
+        } catch (IOException ex) {
+            return "Part 4 failed: " + ex.getMessage();
+        }
         ListSet<FsFile> filesInDb = part5FoundFilesInDb(bitBackupContext.getFileRepository(), bitBackupArgs);
 
         LocalDateTime now = part6AddNewFilesToDb(filesInFileSystem, bitBackupFiles, filesInDb, bitBackupContext);
@@ -206,19 +210,18 @@ public class CheckCommand implements Command {
     }
     public static final String BIBVERSION = "bib.version";
 
-    private ListSet<File> part4FoundFilesInFileSystem(BitBackupFiles bitBackupFiles, BitBackupArgs bitBackupArgs) {
+    private ListSet<File> part4FoundFilesInFileSystem(BitBackupFiles bitBackupFiles, BitBackupArgs bitBackupArgs) throws IOException {
         LOG.info("** Part {}: Loading files in filesystem", CheckCommandPart.FOUND_FILES_IN_FILESYSTEM.number);
         String workingDir = bitBackupFiles.getWorkingDirAbsolutePath();
         List<File> filesAlreadyFound = new ArrayList<>();
-        List<File> filesInDirList = foundFilesInCurrentDir(bitBackupFiles.getWorkingDir(), filesAlreadyFound, bitBackupFiles);
+        List<File> filesInDirList = foundFilesInCurrentDir(bitBackupFiles.getWorkingDir(), filesAlreadyFound, bitBackupFiles, bitBackupArgs, workingDir);
 
+        if(bitBackupArgs.isBitBackupIndexEnabled()) {
         Utils.writeTextToFile(bitbackupindexSB.toString(), bitBackupFiles.getBitbackupindex());
+        }
         ListSet<File> listSet = new ListSet<>(filesInDirList, f -> loadPathButOnlyTheNeededPart(bitBackupFiles.getWorkingDir(), f));
 
         LOG.info("Part {}: Found {} files.", CheckCommandPart.FOUND_FILES_IN_FILESYSTEM.number, listSet.size());
-        if (bitBackupArgs.isVerboseLoggingEnabled()) {
-            filesInDirList.stream().forEach((f -> LOG.info("#" + (++iStatic) + " " + f.getAbsolutePath().substring(workingDir.length() + 1))));
-        }
         return listSet;
     }
 
@@ -231,7 +234,7 @@ public class CheckCommand implements Command {
     private int foundFiles;
     private int foundDirs;
 
-    private List<File> foundFilesInCurrentDir(File currentDir, List<File> filesAlreadyFound, BitBackupFiles bitBackupFiles) {
+    private List<File> foundFilesInCurrentDir(File currentDir, List<File> filesAlreadyFound, BitBackupFiles bitBackupFiles, BitBackupArgs bitBackupArgs, String workingDir) throws IOException {
 
         for (File f : currentDir.listFiles()) {
             
@@ -243,12 +246,10 @@ public class CheckCommand implements Command {
             }
             if (f.isDirectory()) {
                 ++foundDirs;
-                try {
+                if (bitBackupArgs.isBitBackupIndexEnabled()) {
                     bitbackupindexSB.append(new FileEntry(f).toCsvLine()).append("\n");
-                } catch (IOException ex) {
-                    java.util.logging.Logger.getLogger(CheckCommand.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                foundFilesInCurrentDir(f, filesAlreadyFound, bitBackupFiles);
+                foundFilesInCurrentDir(f, filesAlreadyFound, bitBackupFiles, bitBackupArgs, workingDir);
             } else {
                 ++foundFiles;
                 if (f.getAbsolutePath().equals(bitBackupFiles.getBitBackupSQLite3File().getAbsolutePath())) {
@@ -263,12 +264,14 @@ public class CheckCommand implements Command {
                 if (bitBackupFiles.getBitBackupIgnoreRegex().test(loadPathButOnlyTheNeededPart(bitBackupFiles.getWorkingDir(), f))) {
                     continue;
                 }
-                try {
-                    bitbackupindexSB.append(new FileEntry(f).toCsvLine()).append("\n");
-                } catch (IOException ex) {
-                    java.util.logging.Logger.getLogger(CheckCommand.class.getName()).log(Level.SEVERE, null, ex);
+                if (bitBackupArgs.isBitBackupIndexEnabled()) {
+                    bitbackupindexSB.append(new FileEntry(f).toCsvLine()).append("\n");   
                 }
                 filesAlreadyFound.add(f);
+                
+                if (bitBackupArgs.isVerboseLoggingEnabled() || iStatic % 100 == 0) {
+                    LOG.info("Found file in file system: #" + (++iStatic) + " " + f.getAbsolutePath().substring(workingDir.length() + 1));
+                }
             }
         }
         return filesAlreadyFound;
